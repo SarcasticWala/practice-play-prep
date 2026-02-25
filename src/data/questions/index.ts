@@ -5,6 +5,7 @@ import { profitLossQuestions } from './profit-loss';
 import { reasoningQuestions } from './reasoning';
 import { workTimeQuestions } from './work-time';
 import { speedTimeQuestions } from './speed-time';
+import { areaPerimeterQuestions } from './area-perimeter';
 
 const questionBank: Record<string, Question[]> = {
   'percentages': percentagesQuestions,
@@ -14,7 +15,7 @@ const questionBank: Record<string, Question[]> = {
   'work-time': workTimeQuestions,
   'speed-time-distance': speedTimeQuestions,
   'geometry': numberSystemQuestions.map((q, i) => ({ ...q, id: `geo-${i+1}` })),
-  'area-shapes': numberSystemQuestions.map((q, i) => ({ ...q, id: `area-${i+1}` })),
+  'area-shapes': areaPerimeterQuestions,
   'equations': percentagesQuestions.map((q, i) => ({ ...q, id: `eq-${i+1}` })),
   'ages': profitLossQuestions.map((q, i) => ({ ...q, id: `age-${i+1}` })),
   'clocks-calendar': reasoningQuestions.map((q, i) => ({ ...q, id: `cc-${i+1}` })),
