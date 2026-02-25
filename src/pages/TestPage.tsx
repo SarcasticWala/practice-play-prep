@@ -13,6 +13,8 @@ const TestPage = () => {
   const [answers, setAnswers] = useState<Record<string, number | null>>({});
   const [timeLeft, setTimeLeft] = useState(questions.length * 60); // 1 min per question
   const [submitted, setSubmitted] = useState(false);
+  const [revealed, setRevealed] = useState<Record<string, boolean>>({});
+  const [skipped, setSkipped] = useState<Record<string, boolean>>({});
 
   const handleSubmit = useCallback(() => {
     if (submitted) return;
@@ -49,19 +51,38 @@ const TestPage = () => {
     return () => clearInterval(timer);
   }, [timeLeft, handleSubmit]);
 
+  const handleSelectOption = (questionId: string, optionIndex: number) => {
+    if (revealed[questionId]) return; // already answered
+    setAnswers(prev => ({ ...prev, [questionId]: optionIndex }));
+    setRevealed(prev => ({ ...prev, [questionId]: true }));
+  };
+
+  const handleSkip = () => {
+    setSkipped(prev => ({ ...prev, [currentQ.id]: true }));
+    if (currentIndex < questions.length - 1) {
+      setCurrentIndex(i => i + 1);
+    }
+  };
+
   const currentQ = questions[currentIndex];
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
   const isLowTime = timeLeft < 60;
+  const isRevealed = revealed[currentQ.id];
+  const selectedAnswer = answers[currentQ.id];
+  const isCorrect = selectedAnswer === currentQ.correctAnswer;
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Top Bar */}
       <header className="bg-primary text-primary-foreground px-4 py-3 flex items-center justify-between shadow">
-        <div>
-          <h1 className="font-bold text-lg">{topic?.name || 'Test'}</h1>
-          <p className="text-xs text-primary-foreground/60">Q {currentIndex + 1} of {questions.length}</p>
-        </div>
+        <button onClick={() => navigate('/')} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <span className="text-lg">←</span>
+          <div>
+            <h1 className="font-bold text-lg">{topic?.name || 'Test'}</h1>
+            <p className="text-xs text-primary-foreground/60">Q {currentIndex + 1} of {questions.length}</p>
+          </div>
+        </button>
         <div className={`font-mono-timer text-xl font-bold px-4 py-2 rounded-lg ${isLowTime ? 'bg-destructive text-destructive-foreground timer-pulse' : 'bg-primary-foreground/10'}`}>
           {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
         </div>
@@ -77,8 +98,12 @@ const TestPage = () => {
               className={`w-8 h-8 rounded-lg text-xs font-bold transition-all ${
                 i === currentIndex
                   ? 'bg-accent text-accent-foreground scale-110'
-                  : answers[q.id] !== undefined && answers[q.id] !== null
+                  : revealed[q.id] && answers[q.id] === q.correctAnswer
                   ? 'bg-success/20 text-success border border-success/40'
+                  : revealed[q.id] && answers[q.id] !== q.correctAnswer
+                  ? 'bg-destructive/20 text-destructive border border-destructive/40'
+                  : skipped[q.id]
+                  ? 'bg-yellow-500/20 text-yellow-600 border border-yellow-500/40'
                   : 'bg-muted text-muted-foreground'
               }`}
             >
@@ -95,27 +120,48 @@ const TestPage = () => {
           <p className="text-lg font-medium text-card-foreground leading-relaxed">{currentQ.question}</p>
         </div>
 
-        <div className="space-y-3 mb-8">
-          {currentQ.options.map((opt, i) => (
-            <button
-              key={i}
-              onClick={() => setAnswers(prev => ({ ...prev, [currentQ.id]: i }))}
-              className={`option-radio w-full text-left flex items-center gap-3 ${
-                answers[currentQ.id] === i ? 'selected' : 'border-border'
-              }`}
-            >
-              <span className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${
-                answers[currentQ.id] === i ? 'bg-accent text-accent-foreground' : 'bg-muted text-muted-foreground'
-              }`}>
-                {String.fromCharCode(65 + i)}
-              </span>
-              <span className="text-card-foreground">{opt}</span>
-            </button>
-          ))}
+        <div className="space-y-3 mb-4">
+          {currentQ.options.map((opt, i) => {
+            let optClass = 'border-border';
+            if (isRevealed) {
+              if (i === currentQ.correctAnswer) optClass = 'border-success bg-success/10';
+              else if (i === selectedAnswer) optClass = 'border-destructive bg-destructive/10';
+            } else if (selectedAnswer === i) {
+              optClass = 'selected';
+            }
+            return (
+              <button
+                key={i}
+                onClick={() => handleSelectOption(currentQ.id, i)}
+                disabled={isRevealed}
+                className={`option-radio w-full text-left flex items-center gap-3 ${optClass} disabled:cursor-default`}
+              >
+                <span className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${
+                  isRevealed && i === currentQ.correctAnswer ? 'bg-success text-white'
+                  : isRevealed && i === selectedAnswer ? 'bg-destructive text-white'
+                  : selectedAnswer === i ? 'bg-accent text-accent-foreground'
+                  : 'bg-muted text-muted-foreground'
+                }`}>
+                  {String.fromCharCode(65 + i)}
+                </span>
+                <span className="text-card-foreground">{opt}</span>
+                {isRevealed && i === currentQ.correctAnswer && <span className="ml-auto text-success font-bold text-sm">✓ Correct</span>}
+                {isRevealed && i === selectedAnswer && i !== currentQ.correctAnswer && <span className="ml-auto text-destructive font-bold text-sm">✗ Wrong</span>}
+              </button>
+            );
+          })}
         </div>
 
+        {/* Feedback */}
+        {isRevealed && (
+          <div className={`rounded-lg p-4 mb-6 text-sm ${isCorrect ? 'bg-success/10 border border-success/30 text-success' : 'bg-destructive/10 border border-destructive/30 text-destructive'}`}>
+            {isCorrect ? '🎉 Correct!' : `❌ Incorrect. The correct answer is ${String.fromCharCode(65 + currentQ.correctAnswer)}.`}
+            {currentQ.explanation && <p className="mt-2 text-card-foreground/80">{currentQ.explanation}</p>}
+          </div>
+        )}
+
         {/* Navigation */}
-        <div className="flex justify-between items-center gap-3">
+        <div className="flex justify-between items-center gap-2 flex-wrap">
           <button
             onClick={() => setCurrentIndex(i => Math.max(0, i - 1))}
             disabled={currentIndex === 0}
@@ -124,16 +170,27 @@ const TestPage = () => {
             ← Previous
           </button>
 
-          <button
-            onClick={() => setAnswers(prev => {
-              const copy = { ...prev };
-              delete copy[currentQ.id];
-              return copy;
-            })}
-            className="px-4 py-2.5 rounded-lg text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Clear
-          </button>
+          <div className="flex gap-2">
+            {!isRevealed && (
+              <button
+                onClick={handleSkip}
+                className="px-4 py-2.5 rounded-lg border border-yellow-500/40 text-sm font-semibold text-yellow-600 hover:bg-yellow-500/10 transition-colors"
+              >
+                Skip →
+              </button>
+            )}
+            <button
+              onClick={() => setAnswers(prev => {
+                const copy = { ...prev };
+                delete copy[currentQ.id];
+                return copy;
+              })}
+              disabled={isRevealed}
+              className="px-4 py-2.5 rounded-lg text-sm text-muted-foreground hover:text-foreground disabled:opacity-40 transition-colors"
+            >
+              Clear
+            </button>
+          </div>
 
           {currentIndex < questions.length - 1 ? (
             <button
