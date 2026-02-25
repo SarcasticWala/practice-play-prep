@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Question, UserAnswer } from '@/types/quiz';
+import { useProgress } from '@/hooks/use-progress';
 
 interface ResultState {
   totalQuestions: number;
@@ -13,6 +14,7 @@ interface ResultState {
   answers: UserAnswer[];
   questions: Question[];
   topicName: string;
+  topicId: string;
 }
 
 const ResultPage = () => {
@@ -20,6 +22,14 @@ const ResultPage = () => {
   const navigate = useNavigate();
   const result = location.state as ResultState;
   const [showSolutions, setShowSolutions] = useState(false);
+  const { saveResult } = useProgress();
+
+  useEffect(() => {
+    if (result?.topicId) {
+      saveResult(result.topicId, result.correct, result.totalQuestions);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!result) {
     return (
@@ -85,6 +95,9 @@ const ResultPage = () => {
         <div className="flex gap-3 mb-6">
           <button onClick={() => navigate('/')} className="flex-1 px-4 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:opacity-90">
             Back to Topics
+          </button>
+          <button onClick={() => navigate(`/test/${result.topicId}`)} className="flex-1 px-4 py-3 border border-border text-foreground rounded-lg font-semibold hover:bg-muted">
+            Retry Test
           </button>
           <button onClick={() => setShowSolutions(!showSolutions)} className="flex-1 px-4 py-3 bg-accent text-accent-foreground rounded-lg font-semibold hover:opacity-90">
             {showSolutions ? 'Hide' : 'View'} Solutions

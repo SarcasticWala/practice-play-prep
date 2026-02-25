@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getQuestions } from '@/data/questions';
 import { topics } from '@/data/topics';
 import { Question, UserAnswer } from '@/types/quiz';
+import { useBookmarks } from '@/hooks/use-bookmarks';
 
 const TestPage = () => {
   const { topicId } = useParams<{ topicId: string }>();
@@ -11,10 +12,11 @@ const TestPage = () => {
   const [questions] = useState<Question[]>(() => getQuestions(topicId || '', 50));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number | null>>({});
-  const [timeLeft, setTimeLeft] = useState(questions.length * 60); // 1 min per question
+  const [timeLeft, setTimeLeft] = useState(questions.length * 60);
   const [submitted, setSubmitted] = useState(false);
   const [revealed, setRevealed] = useState<Record<string, boolean>>({});
   const [skipped, setSkipped] = useState<Record<string, boolean>>({});
+  const { isBookmarked, toggleBookmark } = useBookmarks();
 
   const handleSubmit = useCallback(() => {
     if (submitted) return;
@@ -38,9 +40,10 @@ const TestPage = () => {
         answers: userAnswers,
         questions,
         topicName: topic?.name || 'Test',
+        topicId: topicId || '',
       },
     });
-  }, [submitted, questions, answers, timeLeft, navigate, topic]);
+  }, [submitted, questions, answers, timeLeft, navigate, topic, topicId]);
 
   useEffect(() => {
     if (timeLeft <= 0) {
@@ -52,7 +55,7 @@ const TestPage = () => {
   }, [timeLeft, handleSubmit]);
 
   const handleSelectOption = (questionId: string, optionIndex: number) => {
-    if (revealed[questionId]) return; // already answered
+    if (revealed[questionId]) return;
     setAnswers(prev => ({ ...prev, [questionId]: optionIndex }));
     setRevealed(prev => ({ ...prev, [questionId]: true }));
   };
@@ -71,6 +74,7 @@ const TestPage = () => {
   const isRevealed = revealed[currentQ.id];
   const selectedAnswer = answers[currentQ.id];
   const isCorrect = selectedAnswer === currentQ.correctAnswer;
+  const bookmarked = isBookmarked(currentQ.id);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -103,7 +107,7 @@ const TestPage = () => {
                   : revealed[q.id] && answers[q.id] !== q.correctAnswer
                   ? 'bg-destructive/20 text-destructive border border-destructive/40'
                   : skipped[q.id]
-                  ? 'bg-yellow-500/20 text-yellow-600 border border-yellow-500/40'
+                  ? 'bg-warning/20 text-warning border border-warning/40'
                   : 'bg-muted text-muted-foreground'
               }`}
             >
@@ -116,7 +120,16 @@ const TestPage = () => {
       {/* Question */}
       <main className="flex-1 max-w-3xl w-full mx-auto px-4 py-6 fade-in" key={currentIndex}>
         <div className="bg-card rounded-xl border border-border p-6 mb-6">
-          <p className="text-xs text-muted-foreground mb-2 font-semibold">QUESTION {currentIndex + 1}</p>
+          <div className="flex items-start justify-between gap-2">
+            <p className="text-xs text-muted-foreground mb-2 font-semibold">QUESTION {currentIndex + 1}</p>
+            <button
+              onClick={() => toggleBookmark(currentQ, topicId || '', topic?.name || '')}
+              className={`text-lg transition-transform hover:scale-125 ${bookmarked ? 'text-accent' : 'text-muted-foreground/40'}`}
+              title={bookmarked ? 'Remove bookmark' : 'Bookmark this question'}
+            >
+              {bookmarked ? '📌' : '📎'}
+            </button>
+          </div>
           <p className="text-lg font-medium text-card-foreground leading-relaxed">{currentQ.question}</p>
         </div>
 
@@ -137,8 +150,8 @@ const TestPage = () => {
                 className={`option-radio w-full text-left flex items-center gap-3 ${optClass} disabled:cursor-default`}
               >
                 <span className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${
-                  isRevealed && i === currentQ.correctAnswer ? 'bg-success text-white'
-                  : isRevealed && i === selectedAnswer ? 'bg-destructive text-white'
+                  isRevealed && i === currentQ.correctAnswer ? 'bg-success text-success-foreground'
+                  : isRevealed && i === selectedAnswer ? 'bg-destructive text-destructive-foreground'
                   : selectedAnswer === i ? 'bg-accent text-accent-foreground'
                   : 'bg-muted text-muted-foreground'
                 }`}>
@@ -174,17 +187,16 @@ const TestPage = () => {
             {!isRevealed && (
               <button
                 onClick={handleSkip}
-                className="px-4 py-2.5 rounded-lg border border-yellow-500/40 text-sm font-semibold text-yellow-600 hover:bg-yellow-500/10 transition-colors"
+                className="px-4 py-2.5 rounded-lg border border-warning/40 text-sm font-semibold text-warning hover:bg-warning/10 transition-colors"
               >
                 Skip →
               </button>
             )}
             <button
-              onClick={() => setAnswers(prev => {
-                const copy = { ...prev };
-                delete copy[currentQ.id];
-                return copy;
-              })}
+              onClick={() => {
+                setAnswers(prev => { const c = { ...prev }; delete c[currentQ.id]; return c; });
+                setRevealed(prev => { const c = { ...prev }; delete c[currentQ.id]; return c; });
+              }}
               disabled={isRevealed}
               className="px-4 py-2.5 rounded-lg text-sm text-muted-foreground hover:text-foreground disabled:opacity-40 transition-colors"
             >
