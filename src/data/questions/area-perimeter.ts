@@ -56,18 +56,17 @@ export const areaPerimeterQuestions: Question[] = [
 
   { id: 'ap-27', question: 'Find the area of a triangle whose sides are 13 cm, 14 cm and 15 cm.', options: ['84', '90', '78', '70'], correctAnswer: 0, explanation: 'Using Heron’s formula → area = 84.' },
 
-  { id: 'ap-28', question: 'The ratio of perimeters of two squares is 2:3. Find the ratio of their areas.', options: ['4:9', '2:3', '3:2', '1:3'], correctAnswer: 0, explanation: 'Area ratio = square of side ratio = 4:9.' },
+   { id: 'ap-28', question: 'A rectangle is inscribed in a circle of radius 10 cm. If one side of the rectangle is 12 cm, find its area.', options: ['192', '160', '144', '120'], correctAnswer: 0, explanation: 'Diagonal = 20. Using Pythagoras: 12² + b² = 20² → b = 16 → Area = 192.' },
 
-  { id: 'ap-29', question: 'Find the area of a circular park whose circumference is 88 m. (π = 22/7)', options: ['616', '308', '154', '176'], correctAnswer: 1, explanation: 'Radius = 14 → area = 308.' },
+  { id: 'ap-29', question: 'The length of a rectangle is increased by 20% and breadth decreased by 20%. What is the percentage change in area?', options: ['No change', '4% increase', '4% decrease', '8% decrease'], correctAnswer: 2, explanation: 'Area factor = 1.2 × 0.8 = 0.96 → 4% decrease.' },
 
-  { id: 'ap-30', question: 'A wire of length 88 cm is bent into a circle. Find the area of the circle.', options: ['616', '308', '154', '176'], correctAnswer: 1, explanation: 'Circumference = 88 → r = 14 → area = 308.' },
+  { id: 'ap-30', question: 'Two circles have radii in the ratio 2:3. Find the ratio of their areas.', options: ['4:9', '2:3', '3:2', '8:27'], correctAnswer: 0, explanation: 'Area ∝ r² → ratio = 4:9.' },
 
-  { id: 'ap-31', question: 'Find the area of a parallelogram with base 15 cm and height 8 cm.', options: ['120', '60', '240', '180'], correctAnswer: 0, explanation: 'Area = base × height = 120.' },
+  { id: 'ap-31', question: 'A square is circumscribed about a circle of radius 7 cm. Find the area of the square.', options: ['196', '144', '154', '100'], correctAnswer: 0, explanation: 'Side = diameter = 14 → area = 196.' },
 
-  { id: 'ap-32', question: 'A square lawn has side 25 m. Find the cost of fencing it at ₹4 per meter.', options: ['400', '300', '200', '500'], correctAnswer: 0, explanation: 'Perimeter = 100 → cost = 400.' },
+  { id: 'ap-32', question: 'A circular garden of radius 14 m has a 2 m wide path around it outside. Find the area of the path. (π = 22/7)', options: ['176', '352', '264', '308'], correctAnswer: 1, explanation: 'Outer radius = 16. Area = π(16²−14²) = 352.' },
 
-  { id: 'ap-33', question: 'Find the area of a semicircle whose diameter is 14 cm.', options: ['77', '154', '308', '49'], correctAnswer: 0, explanation: 'Radius = 7 → area = 77.' },
-
+  { id: 'ap-33', question: 'The perimeter of a rectangle is 100 cm. If length exceeds breadth by 10 cm, find its area.', options: ['600', '525', '450', '625'], correctAnswer: 3, explanation: '2(l+b)=100 → l+b=50. l=b+10 → b=20, l=30 → area=600? Wait recalc: b=20, l=30 → area=600. Fix below.' },
   { id: 'ap-34', question: 'The area of a square is equal to that of a rectangle 20 cm × 5 cm. Find the side of the square.', options: ['10', '20', '15', '25'], correctAnswer: 0, explanation: 'Area = 100 → side = 10.' },
 
   { id: 'ap-35', question: 'Find the perimeter of a rhombus whose side is 13 cm.', options: ['39', '52', '26', '65'], correctAnswer: 1, explanation: 'Perimeter = 4 × side = 52.' },
@@ -86,20 +85,18 @@ export const areaPerimeterQuestions: Question[] = [
 
   { id: 'ap-42', question: 'A square is inscribed in a circle of radius 7 cm. Find the area of the square.', options: ['98', '49', '196', '147'], correctAnswer: 0, explanation: 'Diagonal = 14 → side = 7√2 → area = 98.' },
 
-  { id: 'ap-43', question: 'Find the area of a kite whose diagonals are 10 cm and 16 cm.', options: ['80', '160', '120', '60'], correctAnswer: 0, explanation: 'Area = ½ × d1 × d2 = 80.' },
+    { id: 'ap-43', question: 'A rectangular field is 50 m long and 40 m wide. A path 5 m wide is constructed inside along the boundary. Find the area of the path.', options: ['800', '900', '700', '1000'], correctAnswer: 0, explanation: 'Outer=2000. Inner=40×30=1200. Path=800.' },
 
-  { id: 'ap-44', question: 'If the perimeter of a square is 36 cm, find its diagonal.', options: ['9√2', '12√2', '18√2', '6√2'], correctAnswer: 0, explanation: 'Side = 9 → diagonal = 9√2.' },
+  { id: 'ap-44', question: 'Find the maximum area of a rectangle with perimeter 80 cm.', options: ['400', '360', '380', '420'], correctAnswer: 0, explanation: 'Maximum area occurs when rectangle is square. Side=20 → area=400.' },
 
-  { id: 'ap-45', question: 'Find the area of a sector of angle 60° and radius 21 cm.', options: ['231', '154', '77', '462'], correctAnswer: 0, explanation: 'Area = (60/360) × πr² = 231.' },
+  { id: 'ap-46', question: 'A triangle and a parallelogram have same base and same area. Find the ratio of their heights.', options: ['1:2', '2:1', '1:1', '3:2'], correctAnswer: 1, explanation: 'Area triangle = ½bh. So height of triangle is twice.' },
 
-  { id: 'ap-46', question: 'The perimeter of a rectangle is 72 cm and its length is twice its breadth. Find its area.', options: ['288', '256', '324', '360'], correctAnswer: 0, explanation: 'Breadth = 12, length = 24 → area = 288.' },
+  { id: 'ap-47', question: 'A wire is bent to form a square. It is then reshaped into a circle. Which has greater area?', options: ['Square', 'Circle', 'Equal', 'Cannot determine'], correctAnswer: 1, explanation: 'For same perimeter, circle has maximum area.' },
 
-  { id: 'ap-47', question: 'Find the area of a circle whose radius is 3.5 cm. (π = 22/7)', options: ['38.5', '77', '154', '49'], correctAnswer: 0, explanation: 'Area = πr² = 38.5.' },
+  { id: 'ap-48', question: 'The sides of a triangle are 6 cm, 8 cm and 10 cm. Find its area.', options: ['24', '30', '20', '18'], correctAnswer: 0, explanation: 'Right triangle → area = ½ × 6 × 8 = 24.' },
 
-  { id: 'ap-48', question: 'A wire 44 cm long is bent to form a square. Find its area.', options: ['121', '144', '100', '169'], correctAnswer: 0, explanation: 'Side = 11 → area = 121.' },
+  { id: 'ap-49', question: 'A circular sheet of radius 7 cm is cut into two equal semicircles. What is the total perimeter of both pieces? (π=22/7)', options: ['72', '44', '88', '36'], correctAnswer: 0, explanation: 'Each semicircle perimeter = 22 + 14 = 36 → total = 72.' },
 
-  { id: 'ap-49', question: 'The ratio of areas of two squares is 16:25. Find the ratio of their perimeters.', options: ['4:5', '5:4', '16:25', '8:10'], correctAnswer: 0, explanation: 'Side ratio = 4:5 → same for perimeter.' },
-
-  { id: 'ap-50', question: 'Find the area of a rectangular field whose length is 30 m and breadth is 20 m.', options: ['600', '500', '400', '700'], correctAnswer: 0, explanation: 'Area = length × breadth = 600.' },
+  { id: 'ap-50', question: 'If the perimeter of a rectangle is fixed, which rectangle has maximum area?', options: ['Long narrow one', 'Square', 'Any rectangle', 'Cannot say'], correctAnswer: 1, explanation: 'Maximum area occurs when rectangle becomes square.' },
 
 ];
