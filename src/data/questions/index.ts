@@ -13,6 +13,7 @@ import { ageQuestions } from './age';
 import { clockCalendarQuestions } from './clock&calender';
 import { seriesProgressionQuestions } from './series';
 import { probabilityQuestions } from './prob';
+import { pncQuestions } from './pnc';
 const questionBank: Record<string, Question[]> = {
   'percentages': percentagesQuestions,
   'number-system': numberSystemQuestions,
@@ -27,7 +28,7 @@ const questionBank: Record<string, Question[]> = {
   'clocks-calendar': clockCalendarQuestions,
   'series-progressions': seriesProgressionQuestions,
   'probability': probabilityQuestions,
-  'pnc': numberSystemQuestions.map((q, i) => ({ ...q, id: `pnc-${i+1}` })),
+  'pnc': pncQuestions,
   'allegations': profitLossQuestions.map((q, i) => ({ ...q, id: `alg-${i+1}` })),
   'divisibility': numberSystemQuestions.map((q, i) => ({ ...q, id: `div-${i+1}` })),
   'decimal-fractions': numberSystemQuestions.map((q, i) => ({ ...q, id: `df-${i+1}` })),
