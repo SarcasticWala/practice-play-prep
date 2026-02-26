@@ -29,7 +29,7 @@ const Index = () => {
         <div className="bg-gradient-to-r from-accent/20 to-primary/10 rounded-xl border border-accent/30 p-6 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <h2 className="text-xl font-bold text-foreground mb-1">📝 TCS NQT Full Mock Test</h2>
-            <p className="text-sm text-muted-foreground">56 questions • 60 minutes • Random questions from all topics following TCS NQT pattern</p>
+            <p className="text-sm text-muted-foreground">56 questions • 60 minutes </p>
             <p className="text-xs text-muted-foreground mt-1">26 Numerical Ability + 30 Reasoning Ability</p>
           </div>
           <button

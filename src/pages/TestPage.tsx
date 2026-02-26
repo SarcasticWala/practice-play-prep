@@ -4,7 +4,7 @@ import { getQuestions } from '@/data/questions';
 import { topics } from '@/data/topics';
 import { Question, UserAnswer } from '@/types/quiz';
 import { useBookmarks } from '@/hooks/use-bookmarks';
-
+import { ArrowLeft } from "lucide-react";
 const TestPage = () => {
   const { topicId } = useParams<{ topicId: string }>();
   const navigate = useNavigate();
@@ -54,6 +54,18 @@ const TestPage = () => {
     return () => clearInterval(timer);
   }, [timeLeft, handleSubmit]);
 
+  useEffect(() => {
+  const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+    if (!submitted) {
+      e.preventDefault();
+      e.returnValue = "You have an ongoing test. Are you sure you want to leave?";
+    }
+  };
+  window.addEventListener("beforeunload", handleBeforeUnload);
+  return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+}, [submitted]);
+
+
   const handleSelectOption = (questionId: string, optionIndex: number) => {
     if (revealed[questionId]) return;
     setAnswers(prev => ({ ...prev, [questionId]: optionIndex }));
@@ -80,13 +92,30 @@ const TestPage = () => {
     <div className="min-h-screen bg-background flex flex-col">
       {/* Top Bar */}
       <header className="bg-primary text-primary-foreground px-4 py-3 flex items-center justify-between shadow">
-        <button onClick={() => navigate('/')} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-          <span className="text-lg">←</span>
-          <div>
-            <h1 className="font-bold text-lg">{topic?.name || 'Test'}</h1>
-            <p className="text-xs text-primary-foreground/60">Q {currentIndex + 1} of {questions.length}</p>
-          </div>
-        </button>
+       <div className="flex items-center gap-4">
+
+  {/* Arrow OUTSIDE */}
+<button
+  onClick={() => navigate("/")}
+  aria-label="Go back to home"
+  className="flex items-center justify-center w-10 h-10 rounded-full
+             border border-primary-foreground/10 bg-primary-foreground/5
+             hover:bg-primary-foreground/20
+             transition-all duration-300"
+>
+  <ArrowLeft size={18} />
+</button>
+  {/* Header Content */}
+  <div className="px-4 py-3 rounded-xl bg-white/5 backdrop-blur-md border border-white/10">
+    <h1 className="font-semibold text-lg">
+      {topic?.name || "Test"}
+    </h1>
+    <p className="text-xs text-muted-foreground">
+      Question {currentIndex + 1} of {questions.length}
+    </p>
+  </div>
+
+</div>
         <div className={`font-mono-timer text-xl font-bold px-4 py-2 rounded-lg ${isLowTime ? 'bg-destructive text-destructive-foreground timer-pulse' : 'bg-primary-foreground/10'}`}>
           {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
         </div>

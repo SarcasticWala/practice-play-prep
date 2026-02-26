@@ -254,9 +254,12 @@ const MockTestPage = () => {
                   {String.fromCharCode(65 + i)}
                 </span>
                 <span className="text-card-foreground">{opt}</span>
-                {isRevealed && i === currentQ.correctAnswer && <span className="ml-auto text-success font-bold text-sm">✓ Correct</span>}
-                {isRevealed && i === selectedAnswer && i !== currentQ.correctAnswer && <span className="ml-auto text-destructive font-bold text-sm">✗ Wrong</span>}
-              </button>
+                {isRevealed && i === currentQ.correctAnswer && (
+  <span className="ml-auto text-success font-bold text-sm">✓ CORRECT</span>
+)}
+{isRevealed && i === selectedAnswer && i !== currentQ.correctAnswer && (
+  <span className="ml-auto text-destructive font-bold text-sm">✗ WRONG</span>
+)}            </button>
             );
           })}
         </div>
