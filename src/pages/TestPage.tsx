@@ -101,6 +101,7 @@ const TestPage = () => {
   const handleSelectOption = (questionId: string, optionIndex: number) => {
     if (revealed[questionId]) return;
     setAnswers((prev) => ({ ...prev, [questionId]: optionIndex }));
+    setRevealed((prev) => ({ ...prev, [questionId]: true }));
   };
 
   const revealCurrent = () => {

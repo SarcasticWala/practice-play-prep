@@ -17,6 +17,15 @@ import { pncQuestions } from './pnc';
 import { allegationQuestions } from './allegation';
 import { divisibilityQuestions } from './divisibility';
 import { decimalFractionsQuestions } from './decimal-fractions';
+import { averageQuestions } from './avg';
+import { arrangementsSeriesQuestions } from './arrangements';
+import { bloodRelationsQuestions } from './Bloodrelationsquestions';
+import { codingDecodingQuestions } from './coding-decoding';
+import { oddManOutQuestions } from './odd-man';
+import { directionsQuestions } from './directions';
+import { seatingEasyQuestions } from './Seatingeasyquestions';
+import { statementConclusionQuestions } from './Statementconclusionquestions';
+
 const questionBank: Record<string, Question[]> = {
   'percentages': percentagesQuestions,
   'number-system': numberSystemQuestions,
@@ -35,14 +44,14 @@ const questionBank: Record<string, Question[]> = {
   'allegations': allegationQuestions,
   'divisibility': divisibilityQuestions,
   'decimal-fractions': decimalFractionsQuestions,
-  'averages': percentagesQuestions.map((q, i) => ({ ...q, id: `avg-${i+1}` })),
-  'arrangements-series': reasoningQuestions.map((q, i) => ({ ...q, id: `as-${i+1}` })),
-  'blood-relations': reasoningQuestions.map((q, i) => ({ ...q, id: `br-${i+1}` })),
-  'coding-decoding': reasoningQuestions.map((q, i) => ({ ...q, id: `cd-${i+1}` })),
-  'odd-man-out': reasoningQuestions.map((q, i) => ({ ...q, id: `omo-${i+1}` })),
-  'directions': reasoningQuestions.map((q, i) => ({ ...q, id: `dir-${i+1}` })),
-  'statement-conclusion': reasoningQuestions.map((q, i) => ({ ...q, id: `sc-${i+1}` })),
-  'seating-easy': reasoningQuestions.map((q, i) => ({ ...q, id: `se-${i+1}` })),
+  'averages': averageQuestions,
+  'arrangements-series': arrangementsSeriesQuestions,
+  'blood-relations': bloodRelationsQuestions,
+  'coding-decoding': codingDecodingQuestions,
+  'odd-man-out': oddManOutQuestions,
+  'directions': directionsQuestions,
+  'statement-conclusion': statementConclusionQuestions,
+  'seating-easy': seatingEasyQuestions,
   'seating-complex': reasoningQuestions.map((q, i) => ({ ...q, id: `scx-${i+1}` })),
   'analogy': reasoningQuestions.map((q, i) => ({ ...q, id: `an-${i+1}` })),
   'math-operations': reasoningQuestions.map((q, i) => ({ ...q, id: `mo-${i+1}` })),

@@ -4,6 +4,9 @@ import { topics } from '@/data/topics';
 import { useProgress } from '@/hooks/use-progress';
 import { useBookmarks } from '@/hooks/use-bookmarks';
 
+import ScientificCalculatorModal from '@/components/ScientificCalculator';
+import { FaCalculator } from 'react-icons/fa';
+
 const Index = () => {
   const navigate = useNavigate();
   const { progress, clearProgress } = useProgress();
@@ -18,9 +21,20 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="bg-primary text-primary-foreground py-6 px-4 shadow-lg">
-        <div className="max-w-6xl mx-auto">
-          <h1 className="text-3xl font-bold tracking-tight">TCS NQT Practice Platform</h1>
-          <p className="mt-1 text-primary-foreground/70 text-sm">Master aptitude & reasoning with timed practice tests</p>
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">TCS NQT Practice Platform</h1>
+            <p className="mt-1 text-primary-foreground/70 text-sm">Master aptitude & reasoning with timed practice tests</p>
+          </div>
+
+          {/* calculator trigger button placed on right side of header */}
+          <ScientificCalculatorModal
+            trigger={
+              <button className="p-2 rounded-full bg-accent/10 hover:bg-accent/20 transition-colors">
+                <FaCalculator className="w-5 h-5" />
+              </button>
+            }
+          />
         </div>
       </header>
 
