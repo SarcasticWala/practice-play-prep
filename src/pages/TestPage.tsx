@@ -7,6 +7,8 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import ScientificCalculatorModal from '@/components/ScientificCalculator';
+import { FaCalculator } from 'react-icons/fa';
 import { getQuestions } from "@/data/questions";
 import { topics } from "@/data/topics";
 import { Question, UserAnswer } from "@/types/quiz";
@@ -147,6 +149,16 @@ const TestPage = () => {
             }`}
           >
             {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
+          </div>
+          {/* calculator trigger for quick access during tests */}
+          <div className="ml-3">
+            <ScientificCalculatorModal
+              trigger={
+                <button className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
+                  <FaCalculator className="w-4 h-4 text-white" />
+                </button>
+              }
+            />
           </div>
         </div>
       </header>

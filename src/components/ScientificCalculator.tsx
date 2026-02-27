@@ -119,12 +119,14 @@ const styles = `
   }
 
   .calc-shell{
-    width: 380px;
+    width: 100%;
+    max-width: 380px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 8px 24px rgba(16,24,40,0.06);
+    margin: 0 auto;
   }
 
   /* display */
@@ -233,7 +235,7 @@ export default function ScientificCalculatorModal({ trigger }: ScientificCalcula
       <DialogPrimitive.Portal>
         <DialogOverlay />
 
-        <DialogPrimitive.Content className="fixed right-0 top-0 z-50 h-full w-[420px] max-w-full p-6 bg-white shadow-lg sm:rounded-l-lg overflow-y-auto">
+        <DialogPrimitive.Content className="fixed right-0 top-0 z-50 h-full w-full sm:w-[420px] max-w-full p-6 bg-white shadow-lg sm:rounded-l-lg overflow-y-auto">
           <DialogClose asChild>
             <button className="absolute right-4 top-4 rounded-sm opacity-80 hover:opacity-100">
               <X className="h-4 w-4" />
