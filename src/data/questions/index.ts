@@ -25,6 +25,8 @@ import { oddManOutQuestions } from './odd-man';
 import { directionsQuestions } from './directions';
 import { seatingEasyQuestions } from './Seatingeasyquestions';
 import { statementConclusionQuestions } from './Statementconclusionquestions';
+import { analogyQuestions } from './Analogyquestions';
+import { mathOperationsQuestions } from './Mathoperationsquestions';
 
 const questionBank: Record<string, Question[]> = {
   'percentages': percentagesQuestions,
@@ -52,9 +54,9 @@ const questionBank: Record<string, Question[]> = {
   'directions': directionsQuestions,
   'statement-conclusion': statementConclusionQuestions,
   'seating-easy': seatingEasyQuestions,
-  'seating-complex': reasoningQuestions.map((q, i) => ({ ...q, id: `scx-${i+1}` })),
-  'analogy': reasoningQuestions.map((q, i) => ({ ...q, id: `an-${i+1}` })),
-  'math-operations': reasoningQuestions.map((q, i) => ({ ...q, id: `mo-${i+1}` })),
+  'analogy': analogyQuestions,
+
+  'math-operations': mathOperationsQuestions,
   'symbols-notations': reasoningQuestions.map((q, i) => ({ ...q, id: `sn-${i+1}` })),
   'data-sufficiency': reasoningQuestions.map((q, i) => ({ ...q, id: `ds-${i+1}` })),
   'meaningful-word': reasoningQuestions.map((q, i) => ({ ...q, id: `mw-${i+1}` })),

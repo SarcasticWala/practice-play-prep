@@ -28,7 +28,7 @@ export const topics: Topic[] = [
   { id: 'directions', name: 'Distance and Directions', icon: '🧭', category: 'reasoning', questionCount: 50 },
   { id: 'statement-conclusion', name: 'Statement and Conclusion', icon: '💬', category: 'reasoning', questionCount: 50 },
   { id: 'seating-easy', name: 'Seating Arrangement (Easy)', icon: '💺', category: 'reasoning', questionCount: 50 },
-  { id: 'seating-complex', name: 'Seating Arrangement (Complex)', icon: '🪑', category: 'reasoning', questionCount: 50 },
+  // { id: 'seating-complex', name: 'Seating Arrangement (Complex)', icon: '🪑', category: 'reasoning', questionCount: 50 },
   { id: 'analogy', name: 'Analogy', icon: '🔗', category: 'reasoning', questionCount: 50 },
   { id: 'math-operations', name: 'Mathematical Operational Arrangement', icon: '➕', category: 'reasoning', questionCount: 50 },
   { id: 'symbols-notations', name: 'Symbols and Notations', icon: '⊕', category: 'reasoning', questionCount: 50 },
