@@ -6,10 +6,12 @@ import {
   BookmarkCheck,
   ChevronLeft,
   ChevronRight,
+  Calculator,
 } from "lucide-react";
 import { getQuestions } from "@/data/questions";
 import { Question, UserAnswer } from "@/types/quiz";
 import { useBookmarks } from "@/hooks/use-bookmarks";
+import ScientificCalculatorModal from "@/components/ScientificCalculator";
 
 const QUANT_TOPICS = [
   "percentages",
