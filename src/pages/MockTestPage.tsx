@@ -6,10 +6,12 @@ import {
   BookmarkCheck,
   ChevronLeft,
   ChevronRight,
+  Calculator,
 } from "lucide-react";
 import { getQuestions } from "@/data/questions";
 import { Question, UserAnswer } from "@/types/quiz";
 import { useBookmarks } from "@/hooks/use-bookmarks";
+import ScientificCalculatorModal from "@/components/ScientificCalculator";
 
 const QUANT_TOPICS = [
   "percentages",
@@ -207,10 +209,20 @@ const MockTestPage = () => {
             </p>
           </div>
           </div>
-          <div
-            className={`self-end sm:self-auto font-mono-timer text-lg sm:text-xl font-bold px-3 py-2 sm:px-4 rounded-lg ${isLowTime ? "bg-destructive text-destructive-foreground timer-pulse" : "bg-primary-foreground/10"}`}
-          >
-            {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
+          <div className="flex items-center gap-2 self-end sm:self-auto">
+            <ScientificCalculatorModal
+              trigger={
+                <button className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground text-sm font-semibold transition-colors">
+                  <Calculator size={16} />
+                  Calc
+                </button>
+              }
+            />
+            <div
+              className={`font-mono-timer text-lg sm:text-xl font-bold px-3 py-2 sm:px-4 rounded-lg ${isLowTime ? "bg-destructive text-destructive-foreground timer-pulse" : "bg-primary-foreground/10"}`}
+            >
+              {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
+            </div>
           </div>
         </div>
       </header>
