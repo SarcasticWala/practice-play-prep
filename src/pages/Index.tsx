@@ -55,19 +55,19 @@ const Index = () => {
         </div>
 
         {/* Progress Summary */}
-        <div className="bg-card rounded-xl border border-border p-5 mb-6 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex gap-6">
+        <div className="bg-card rounded-2xl border border-border p-5 sm:p-6 mb-8 flex flex-wrap items-center justify-between gap-4 shadow-sm">
+          <div className="flex gap-8">
             <div>
-              <p className="text-2xl font-bold text-foreground">{completedCount}</p>
-              <p className="text-xs text-muted-foreground">Topics Practiced</p>
+              <p className="text-3xl font-bold font-mono-timer text-foreground">{completedCount}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">Topics Practiced</p>
             </div>
-            <div>
-              <p className="text-2xl font-bold text-foreground">{Object.values(progress).reduce((s, p) => s + p.attempts, 0)}</p>
-              <p className="text-xs text-muted-foreground">Total Attempts</p>
+            <div className="border-l border-border pl-8">
+              <p className="text-3xl font-bold font-mono-timer text-foreground">{Object.values(progress).reduce((s, p) => s + p.attempts, 0)}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">Total Attempts</p>
             </div>
-            <div>
-              <p className="text-2xl font-bold text-accent">{bookmarks.length}</p>
-              <p className="text-xs text-muted-foreground">Bookmarked</p>
+            <div className="border-l border-border pl-8">
+              <p className="text-3xl font-bold font-mono-timer text-accent">{bookmarks.length}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">Bookmarked</p>
             </div>
           </div>
           <div className="flex gap-2">
