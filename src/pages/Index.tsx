@@ -128,11 +128,11 @@ const Index = () => {
                 <button
                   key={topic.id}
                   onClick={() => navigate(`/test/${topic.id}`)}
-                  className="topic-card-hover bg-card border border-border rounded-xl p-4 text-left hover:border-accent group relative"
+                  className="topic-card-hover bg-card border border-border rounded-2xl p-4 text-left hover:border-accent/60 group relative shadow-sm hover:shadow-md"
                 >
                   {tp && (
-                    <span className={`absolute top-2 right-2 text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
-                      tp.bestPercentage >= 70 ? 'bg-success/20 text-success' : tp.bestPercentage >= 40 ? 'bg-accent/20 text-accent' : 'bg-destructive/20 text-destructive'
+                    <span className={`absolute top-2.5 right-2.5 text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                      tp.bestPercentage >= 70 ? 'bg-success/15 text-success' : tp.bestPercentage >= 40 ? 'bg-accent/15 text-accent' : 'bg-destructive/15 text-destructive'
                     }`}>
                       {tp.bestPercentage}%
                     </span>
@@ -141,7 +141,7 @@ const Index = () => {
                   <span className="text-sm font-semibold text-card-foreground group-hover:text-accent transition-colors leading-tight block">
                     {topic.name}
                   </span>
-                  <span className="text-xs text-muted-foreground mt-1 block">
+                  <span className="text-[11px] text-muted-foreground mt-1.5 block">
                     {topic.questionCount} Qs{tp ? ` · ${tp.attempts} tries` : ''}
                   </span>
                 </button>
