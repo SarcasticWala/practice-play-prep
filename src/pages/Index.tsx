@@ -20,8 +20,9 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-primary text-primary-foreground py-6 px-4 shadow-lg">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
+      <header className="bg-gradient-to-r from-primary via-primary/95 to-accent/80 text-primary-foreground py-8 px-4 shadow-xl relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,hsl(var(--accent)/0.15),transparent_50%)]" />
+        <div className="max-w-6xl mx-auto flex items-center justify-between relative z-10">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">
               TCS NQT Practice Platform
@@ -30,12 +31,11 @@ const Index = () => {
               Master aptitude & reasoning with timed practice tests
             </p>
           </div>
-
-          {/* calculator trigger button placed on right side of header */}
           <ScientificCalculatorModal
             trigger={
-              <button className="p-2 rounded-full bg-accent/10 hover:bg-accent/20 transition-colors">
-                <FaCalculator className="w-5 h-5" />
+              <button className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 backdrop-blur-sm text-primary-foreground text-sm font-semibold transition-colors border border-primary-foreground/10">
+                <FaCalculator className="w-4 h-4" />
+                <span className="hidden sm:inline">Calculator</span>
               </button>
             }
           />
@@ -44,13 +44,13 @@ const Index = () => {
 
       <main className="max-w-6xl mx-auto px-4 py-8">
         {/* Mock Test CTA */}
-        <div className="bg-gradient-to-r from-accent/20 to-primary/10 rounded-xl border border-accent/30 p-6 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="bg-gradient-to-br from-accent/15 via-accent/5 to-primary/10 rounded-2xl border border-accent/25 p-6 sm:p-8 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm hover:shadow-md transition-shadow">
           <div>
             <h2 className="text-xl font-bold text-foreground mb-1">
-              📝 TCS NQT Full Mock Test
+              TCS NQT Full Mock Test
             </h2>
             <p className="text-sm text-muted-foreground">
-              56 questions • 60 minutes{" "}
+              56 questions | 60 minutes
             </p>
             <p className="text-xs text-muted-foreground mt-1">
               26 Numerical Ability + 30 Reasoning Ability
@@ -60,13 +60,13 @@ const Index = () => {
             onClick={() => navigate("/mock-test")}
             className="px-6 py-3 rounded-xl bg-accent text-accent-foreground font-bold text-sm hover:opacity-90 transition-opacity shrink-0 shadow-lg"
           >
-            Start Mock Test →
+            Start Mock Test {"->"}
           </button>
         </div>
 
         {/* Progress Summary */}
-        <div className="bg-card rounded-xl border border-border p-5 mb-6 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex gap-6">
+        <div className="bg-card rounded-2xl border border-border p-5 sm:p-6 mb-8 flex flex-wrap items-center justify-between gap-4 shadow-sm">
+          <div className="flex gap-8">
             <div>
               <p className="text-2xl font-bold text-foreground">
                 {completedCount}
@@ -91,7 +91,7 @@ const Index = () => {
               onClick={() => setShowBookmarks(!showBookmarks)}
               className="px-4 py-2 rounded-lg bg-accent text-accent-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
             >
-              {showBookmarks ? "Hide" : "📌 View"} Bookmarks
+              {showBookmarks ? "Hide" : "View"} Bookmarks
             </button>
             {completedCount > 0 && (
               <button
@@ -111,7 +111,7 @@ const Index = () => {
         {showBookmarks && (
           <div className="bg-card rounded-xl border border-border p-5 mb-6 fade-in">
             <h3 className="font-bold text-foreground mb-3">
-              📌 Bookmarked Questions ({bookmarks.length})
+              Bookmarked Questions ({bookmarks.length})
             </h3>
             {bookmarks.length === 0 ? (
               <p className="text-sm text-muted-foreground">
@@ -161,7 +161,7 @@ const Index = () => {
                 <button
                   key={topic.id}
                   onClick={() => navigate(`/test/${topic.id}`)}
-                  className="topic-card-hover bg-card border border-border rounded-xl p-4 text-left hover:border-accent group relative"
+                  className="topic-card-hover bg-card border border-border rounded-2xl p-4 text-left hover:border-accent/60 group relative shadow-sm hover:shadow-md"
                 >
                   {tp && (
                     <span
@@ -182,7 +182,7 @@ const Index = () => {
                   </span>
                   <span className="text-xs text-muted-foreground mt-1 block">
                     {topic.questionCount} Qs
-                    {tp ? ` · ${tp.attempts} tries` : ""}
+                    {tp ? ` | ${tp.attempts} tries` : ""}
                   </span>
                 </button>
               );
@@ -203,7 +203,7 @@ const Index = () => {
                 <button
                   key={topic.id}
                   onClick={() => navigate(`/test/${topic.id}`)}
-                  className="topic-card-hover bg-card border border-border rounded-xl p-4 text-left hover:border-accent group relative"
+                  className="topic-card-hover bg-card border border-border rounded-2xl p-4 text-left hover:border-accent/60 group relative shadow-sm hover:shadow-md"
                 >
                   {tp && (
                     <span
@@ -224,7 +224,7 @@ const Index = () => {
                   </span>
                   <span className="text-xs text-muted-foreground mt-1 block">
                     {topic.questionCount} Qs
-                    {tp ? ` · ${tp.attempts} tries` : ""}
+                    {tp ? ` | ${tp.attempts} tries` : ""}
                   </span>
                 </button>
               );
@@ -233,9 +233,9 @@ const Index = () => {
         </section>
       </main>
 
-      <footer className="border-t border-border mt-8 py-6 px-4">
+      <footer className="border-t border-border mt-12 py-8 px-4 bg-card/50">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
-          <span>Practice Platform — Not affiliated with TCS</span>
+          <span>Practice Platform - Not affiliated with TCS</span>
           <a
             href="https://www.linkedin.com/in/ayan-das-cse39/"
             target="_blank"

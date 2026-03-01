@@ -146,25 +146,25 @@ const TestPage = () => {
             </div>
           </div>
 
-          <div
-            className={`self-end sm:self-auto font-mono-timer text-lg sm:text-xl font-bold px-3 py-2 sm:px-4 rounded-lg ${
-              isLowTime
-                ? "bg-destructive text-destructive-foreground timer-pulse"
-                : "bg-primary-foreground/10"
-            }`}
-          >
-            {String(minutes).padStart(2, "0")}:
-            {String(seconds).padStart(2, "0")}
-          </div>
-          {/* calculator trigger for quick access during tests */}
-          <div className="ml-3">
+          <div className="flex items-center gap-2 self-end sm:self-auto">
             <ScientificCalculatorModal
               trigger={
-                <button className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
-                  <FaCalculator className="w-4 h-4 text-white" />
+                <button className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground text-sm font-semibold transition-colors">
+                  <FaCalculator className="w-4 h-4" />
+                  Calc
                 </button>
               }
             />
+            <div
+              className={`font-mono-timer text-lg sm:text-xl font-bold px-3 py-2 sm:px-4 rounded-lg ${
+                isLowTime
+                  ? "bg-destructive text-destructive-foreground timer-pulse"
+                  : "bg-primary-foreground/10"
+              }`}
+            >
+              {String(minutes).padStart(2, "0")}:
+              {String(seconds).padStart(2, "0")}
+            </div>
           </div>
         </div>
       </header>
