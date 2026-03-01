@@ -20,18 +20,18 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-primary text-primary-foreground py-6 px-4 shadow-lg">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
+      <header className="bg-gradient-to-r from-primary via-primary/95 to-accent/80 text-primary-foreground py-8 px-4 shadow-xl relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,hsl(var(--accent)/0.15),transparent_50%)]" />
+        <div className="max-w-6xl mx-auto flex items-center justify-between relative z-10">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">TCS NQT Practice Platform</h1>
-            <p className="mt-1 text-primary-foreground/70 text-sm">Master aptitude & reasoning with timed practice tests</p>
+            <h1 className="font-secondary text-2xl sm:text-3xl font-bold tracking-tight">TCS NQT Practice Platform</h1>
+            <p className="mt-1.5 text-primary-foreground/70 text-sm">Master aptitude & reasoning with timed practice tests</p>
           </div>
-
-          {/* calculator trigger button placed on right side of header */}
           <ScientificCalculatorModal
             trigger={
-              <button className="p-2 rounded-full bg-accent/10 hover:bg-accent/20 transition-colors">
-                <FaCalculator className="w-5 h-5" />
+              <button className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 backdrop-blur-sm text-primary-foreground text-sm font-semibold transition-colors border border-primary-foreground/10">
+                <FaCalculator className="w-4 h-4" />
+                <span className="hidden sm:inline">Calculator</span>
               </button>
             }
           />
@@ -40,34 +40,34 @@ const Index = () => {
 
       <main className="max-w-6xl mx-auto px-4 py-8">
         {/* Mock Test CTA */}
-        <div className="bg-gradient-to-r from-accent/20 to-primary/10 rounded-xl border border-accent/30 p-6 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="bg-gradient-to-br from-accent/15 via-accent/5 to-primary/10 rounded-2xl border border-accent/25 p-6 sm:p-8 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm hover:shadow-md transition-shadow">
           <div>
-            <h2 className="text-xl font-bold text-foreground mb-1">📝 TCS NQT Full Mock Test</h2>
-            <p className="text-sm text-muted-foreground">56 questions • 60 minutes </p>
+            <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-1.5">📝 TCS NQT Full Mock Test</h2>
+            <p className="text-sm text-muted-foreground">56 questions • 60 minutes</p>
             <p className="text-xs text-muted-foreground mt-1">26 Numerical Ability + 30 Reasoning Ability</p>
           </div>
           <button
             onClick={() => navigate('/mock-test')}
-            className="px-6 py-3 rounded-xl bg-accent text-accent-foreground font-bold text-sm hover:opacity-90 transition-opacity shrink-0 shadow-lg"
+            className="px-8 py-3.5 rounded-xl bg-accent text-accent-foreground font-bold text-sm hover:brightness-110 transition-all shrink-0 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
           >
             Start Mock Test →
           </button>
         </div>
 
         {/* Progress Summary */}
-        <div className="bg-card rounded-xl border border-border p-5 mb-6 flex flex-wrap items-center justify-between gap-4">
-          <div className="flex gap-6">
+        <div className="bg-card rounded-2xl border border-border p-5 sm:p-6 mb-8 flex flex-wrap items-center justify-between gap-4 shadow-sm">
+          <div className="flex gap-8">
             <div>
-              <p className="text-2xl font-bold text-foreground">{completedCount}</p>
-              <p className="text-xs text-muted-foreground">Topics Practiced</p>
+              <p className="text-3xl font-bold font-mono-timer text-foreground">{completedCount}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">Topics Practiced</p>
             </div>
-            <div>
-              <p className="text-2xl font-bold text-foreground">{Object.values(progress).reduce((s, p) => s + p.attempts, 0)}</p>
-              <p className="text-xs text-muted-foreground">Total Attempts</p>
+            <div className="border-l border-border pl-8">
+              <p className="text-3xl font-bold font-mono-timer text-foreground">{Object.values(progress).reduce((s, p) => s + p.attempts, 0)}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">Total Attempts</p>
             </div>
-            <div>
-              <p className="text-2xl font-bold text-accent">{bookmarks.length}</p>
-              <p className="text-xs text-muted-foreground">Bookmarked</p>
+            <div className="border-l border-border pl-8">
+              <p className="text-3xl font-bold font-mono-timer text-accent">{bookmarks.length}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">Bookmarked</p>
             </div>
           </div>
           <div className="flex gap-2">
@@ -128,11 +128,11 @@ const Index = () => {
                 <button
                   key={topic.id}
                   onClick={() => navigate(`/test/${topic.id}`)}
-                  className="topic-card-hover bg-card border border-border rounded-xl p-4 text-left hover:border-accent group relative"
+                  className="topic-card-hover bg-card border border-border rounded-2xl p-4 text-left hover:border-accent/60 group relative shadow-sm hover:shadow-md"
                 >
                   {tp && (
-                    <span className={`absolute top-2 right-2 text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
-                      tp.bestPercentage >= 70 ? 'bg-success/20 text-success' : tp.bestPercentage >= 40 ? 'bg-accent/20 text-accent' : 'bg-destructive/20 text-destructive'
+                    <span className={`absolute top-2.5 right-2.5 text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                      tp.bestPercentage >= 70 ? 'bg-success/15 text-success' : tp.bestPercentage >= 40 ? 'bg-accent/15 text-accent' : 'bg-destructive/15 text-destructive'
                     }`}>
                       {tp.bestPercentage}%
                     </span>
@@ -141,7 +141,7 @@ const Index = () => {
                   <span className="text-sm font-semibold text-card-foreground group-hover:text-accent transition-colors leading-tight block">
                     {topic.name}
                   </span>
-                  <span className="text-xs text-muted-foreground mt-1 block">
+                  <span className="text-[11px] text-muted-foreground mt-1.5 block">
                     {topic.questionCount} Qs{tp ? ` · ${tp.attempts} tries` : ''}
                   </span>
                 </button>
@@ -163,11 +163,11 @@ const Index = () => {
                 <button
                   key={topic.id}
                   onClick={() => navigate(`/test/${topic.id}`)}
-                  className="topic-card-hover bg-card border border-border rounded-xl p-4 text-left hover:border-accent group relative"
+                  className="topic-card-hover bg-card border border-border rounded-2xl p-4 text-left hover:border-accent/60 group relative shadow-sm hover:shadow-md"
                 >
                   {tp && (
-                    <span className={`absolute top-2 right-2 text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
-                      tp.bestPercentage >= 70 ? 'bg-success/20 text-success' : tp.bestPercentage >= 40 ? 'bg-accent/20 text-accent' : 'bg-destructive/20 text-destructive'
+                    <span className={`absolute top-2.5 right-2.5 text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                      tp.bestPercentage >= 70 ? 'bg-success/15 text-success' : tp.bestPercentage >= 40 ? 'bg-accent/15 text-accent' : 'bg-destructive/15 text-destructive'
                     }`}>
                       {tp.bestPercentage}%
                     </span>
@@ -176,7 +176,7 @@ const Index = () => {
                   <span className="text-sm font-semibold text-card-foreground group-hover:text-accent transition-colors leading-tight block">
                     {topic.name}
                   </span>
-                  <span className="text-xs text-muted-foreground mt-1 block">
+                  <span className="text-[11px] text-muted-foreground mt-1.5 block">
                     {topic.questionCount} Qs{tp ? ` · ${tp.attempts} tries` : ''}
                   </span>
                 </button>
@@ -186,7 +186,7 @@ const Index = () => {
         </section>
       </main>
 
-      <footer className="border-t border-border mt-8 py-6 px-4">
+      <footer className="border-t border-border mt-12 py-8 px-4 bg-card/50">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
           <span>Practice Platform — Not affiliated with TCS</span>
           <a
