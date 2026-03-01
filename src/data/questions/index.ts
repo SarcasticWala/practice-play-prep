@@ -27,6 +27,9 @@ import { seatingEasyQuestions } from './Seatingeasyquestions';
 import { statementConclusionQuestions } from './Statementconclusionquestions';
 import { analogyQuestions } from './Analogyquestions';
 import { mathOperationsQuestions } from './Mathoperationsquestions';
+import { symbolsNotationsQuestions } from './Symbolsnotationsquestions ';
+import { dataSufficiencyQuestions } from './Datasufficiencyquestions';
+import { meaningfulWordQuestions } from './Meaningfulwordquestions ';
 
 const questionBank: Record<string, Question[]> = {
   'percentages': percentagesQuestions,
@@ -57,9 +60,9 @@ const questionBank: Record<string, Question[]> = {
   'analogy': analogyQuestions,
 
   'math-operations': mathOperationsQuestions,
-  'symbols-notations': reasoningQuestions.map((q, i) => ({ ...q, id: `sn-${i+1}` })),
-  'data-sufficiency': reasoningQuestions.map((q, i) => ({ ...q, id: `ds-${i+1}` })),
-  'meaningful-word': reasoningQuestions.map((q, i) => ({ ...q, id: `mw-${i+1}` })),
+  'symbols-notations': symbolsNotationsQuestions,
+  'data-sufficiency': dataSufficiencyQuestions,
+  'meaningful-word': meaningfulWordQuestions,
   'number-series': reasoningQuestions.map((q, i) => ({ ...q, id: `nsr-${i+1}` })),
   'reasoning-general': reasoningQuestions.map((q, i) => ({ ...q, id: `rg-${i+1}` })),
 };
