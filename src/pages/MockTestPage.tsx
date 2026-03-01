@@ -13,43 +13,47 @@ import { Question, UserAnswer } from "@/types/quiz";
 import { useBookmarks } from "@/hooks/use-bookmarks";
 import ScientificCalculatorModal from "@/components/ScientificCalculator";
 
-const QUANT_TOPICS = [
-  "percentages",
-  "number-system",
-  "profit-loss",
-  "ratios",
-  "work-time",
-  "speed-time-distance",
-  "geometry",
-  "area-shapes",
-  "equations",
-  "ages",
-  "clocks-calendar",
-  "series-progressions",
-  "probability",
-  "pnc",
-  "allegations",
-  "divisibility",
-  "decimal-fractions",
-  "averages",
+export interface TaggedQuestion extends Question {
+  sourceTopic: string;
+  sourceTopicName: string;
+}
+
+const QUANT_TOPICS: { id: string; name: string }[] = [
+  { id: "percentages", name: "Percentages" },
+  { id: "number-system", name: "Number System, LCM & HCF" },
+  { id: "profit-loss", name: "Profit and Loss" },
+  { id: "ratios", name: "Ratios & Proportion" },
+  { id: "work-time", name: "Work and Time" },
+  { id: "speed-time-distance", name: "Speed, Time & Distance" },
+  { id: "geometry", name: "Geometry" },
+  { id: "area-shapes", name: "Area & Perimeter" },
+  { id: "equations", name: "Equations" },
+  { id: "ages", name: "Ages" },
+  { id: "clocks-calendar", name: "Clocks & Calendar" },
+  { id: "series-progressions", name: "Series & Progressions" },
+  { id: "probability", name: "Probability" },
+  { id: "pnc", name: "Permutations & Combinations" },
+  { id: "allegations", name: "Allegations & Mixtures" },
+  { id: "divisibility", name: "Divisibility" },
+  { id: "decimal-fractions", name: "Decimal Fractions" },
+  { id: "averages", name: "Averages" },
 ];
 
-const REASONING_TOPICS = [
-  "arrangements-series",
-  "blood-relations",
-  "coding-decoding",
-  "odd-man-out",
-  "directions",
-  "statement-conclusion",
-  "seating-easy",
-  "seating-complex",
-  "analogy",
-  "math-operations",
-  "symbols-notations",
-  "data-sufficiency",
-  "meaningful-word",
-  "number-series",
-  "reasoning-general",
+const REASONING_TOPICS: { id: string; name: string }[] = [
+  { id: "arrangements-series", name: "Arrangements & Series" },
+  { id: "blood-relations", name: "Blood Relations" },
+  { id: "coding-decoding", name: "Coding-Decoding" },
+  { id: "odd-man-out", name: "Odd Man Out" },
+  { id: "directions", name: "Distance & Directions" },
+  { id: "statement-conclusion", name: "Statement & Conclusion" },
+  { id: "seating-easy", name: "Seating Arrangement" },
+  { id: "analogy", name: "Analogy" },
+  { id: "math-operations", name: "Math Operations" },
+  { id: "symbols-notations", name: "Symbols & Notations" },
+  { id: "data-sufficiency", name: "Data Sufficiency" },
+  { id: "meaningful-word", name: "Meaningful Word" },
+  { id: "number-series", name: "Number Series" },
+  { id: "reasoning-general", name: "Reasoning General" },
 ];
 
 function shuffle<T>(arr: T[]): T[] {
@@ -61,13 +65,32 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-function pickRandom(topics: string[], count: number): Question[] {
-  const pool: Question[] = [];
-  topics.forEach((t) => {
-    const qs = getQuestions(t, 50);
-    pool.push(...qs);
+/** Distribute `count` questions evenly across topics, tagging each with source */
+function distributeQuestions(
+  topics: { id: string; name: string }[],
+  count: number
+): TaggedQuestion[] {
+  const perTopic = Math.max(1, Math.floor(count / topics.length));
+  const remainder = count - perTopic * topics.length;
+  const pool: TaggedQuestion[] = [];
+
+  const shuffledTopics = shuffle(topics);
+
+  shuffledTopics.forEach((topic, idx) => {
+    const take = perTopic + (idx < remainder ? 1 : 0);
+    const topicQs = shuffle(getQuestions(topic.id, 50));
+    const selected = topicQs.slice(0, take);
+    selected.forEach((q) => {
+      pool.push({
+        ...q,
+        id: `mock-${topic.id}-${q.id}`,
+        sourceTopic: topic.id,
+        sourceTopicName: topic.name,
+      });
+    });
   });
-  return shuffle(pool).slice(0, count);
+
+  return shuffle(pool);
 }
 
 const SECTIONS = [
@@ -95,7 +118,7 @@ const MockTestPage = () => {
     () =>
       SECTIONS.map((s) => ({
         ...s,
-        questions: pickRandom(s.topics, s.count),
+        questions: distributeQuestions(s.topics, s.count),
       })),
     [],
   );
@@ -145,6 +168,7 @@ const MockTestPage = () => {
         questions: allQuestions,
         topicName: "TCS NQT Mock Test",
         topicId: "mock-test",
+        isMockTest: true,
       },
     });
   }, [submitted, allQuestions, answers, timeLeft, navigate]);
@@ -281,10 +305,15 @@ const MockTestPage = () => {
       >
         <div className="bg-card/90 backdrop-blur-sm rounded-xl border border-border p-6 mb-6 shadow-sm">
           <div className="flex items-start justify-between gap-2">
-            <p className="text-xs text-muted-foreground mb-2 font-semibold">
-              {sections[currentSection].label.toUpperCase()} - QUESTION{" "}
-              {localIndex + 1}
-            </p>
+            <div>
+              <p className="text-xs text-muted-foreground mb-1 font-semibold">
+                {sections[currentSection].label.toUpperCase()} — QUESTION{" "}
+                {localIndex + 1}
+              </p>
+              <p className="text-[10px] text-accent font-semibold">
+                Topic: {(currentQ as TaggedQuestion).sourceTopicName}
+              </p>
+            </div>
             <button
               onClick={() => toggleBookmark(currentQ, "mock-test", "Mock Test")}
               className={`inline-flex h-9 w-9 items-center justify-center rounded-full border transition-all hover:scale-105 ${
@@ -301,7 +330,7 @@ const MockTestPage = () => {
               )}
             </button>
           </div>
-          <p className="font-secondary text-lg font-bold text-card-foreground leading-relaxed">
+          <p className="font-secondary text-lg font-bold text-card-foreground leading-relaxed mt-2">
             {currentQ.question}
           </p>
         </div>
