@@ -1,7 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from "vitest"
-import { render, screen, fireEvent } from "@testing-library/react"
-import { MemoryRouter, Route, Routes } from "react-router-dom"
-import TestPage from "@/pages/TestPage"
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
+import TestPage from "@/pages/TestPage";
 
 /* ---------------- MOCKS ---------------- */
 
@@ -22,12 +22,12 @@ vi.mock("@/data/questions", () => ({
       correctAnswer: 1,
     },
   ],
-}))
+}));
 
 // mock topics
 vi.mock("@/data/topics", () => ({
   topics: [{ id: "math", name: "Math Test" }],
-}))
+}));
 
 // mock bookmarks hook
 vi.mock("@/hooks/use-bookmarks", () => ({
@@ -35,12 +35,12 @@ vi.mock("@/hooks/use-bookmarks", () => ({
     isBookmarked: () => false,
     toggleBookmark: vi.fn(),
   }),
-}))
+}));
 
 // mock calculator (UI only, no dialog logic)
 vi.mock("@/components/ScientificCalculator", () => ({
   default: ({ trigger }: any) => <div>{trigger}</div>,
-}))
+}));
 
 /* ---------------- HELPERS ---------------- */
 
@@ -51,62 +51,62 @@ const renderTestPage = () =>
         <Route path="/test/:topicId" element={<TestPage />} />
         <Route path="/result" element={<div>Result Page</div>} />
       </Routes>
-    </MemoryRouter>
-  )
+    </MemoryRouter>,
+  );
 
 /* ---------------- TESTS ---------------- */
 
 describe("TestPage", () => {
   beforeEach(() => {
-    vi.useFakeTimers()
-  })
+    vi.useFakeTimers();
+  });
 
   it("renders test page with first question", () => {
-    renderTestPage()
+    renderTestPage();
 
-    expect(screen.getByText("Math Test")).toBeInTheDocument()
-    expect(screen.getByText("What is 2 + 2?")).toBeInTheDocument()
-  })
+    expect(screen.getByText("Math Test")).toBeInTheDocument();
+    expect(screen.getByText("What is 2 + 2?")).toBeInTheDocument();
+  });
 
   it("selects an option and shows correct feedback", () => {
-    renderTestPage()
+    renderTestPage();
 
-    fireEvent.click(screen.getByText("C")) // option index 2
-expect(screen.getByText(/correct answer/i)).toBeInTheDocument()
-  })
+    fireEvent.click(screen.getByText("C")); // option index 2
+    expect(screen.getByText(/correct answer/i)).toBeInTheDocument();
+  });
 
   it("moves to next question", () => {
-    renderTestPage()
+    renderTestPage();
 
-    fireEvent.click(screen.getByText("C"))
-    fireEvent.click(screen.getByText(/next/i))
+    fireEvent.click(screen.getByText("C"));
+    fireEvent.click(screen.getByText(/next/i));
 
-    expect(screen.getByText("What is 3 + 3?")).toBeInTheDocument()
-  })
+    expect(screen.getByText("What is 3 + 3?")).toBeInTheDocument();
+  });
 
   it("shows submit button on last question", () => {
-    renderTestPage()
+    renderTestPage();
 
-    fireEvent.click(screen.getByText("C"))
-    fireEvent.click(screen.getByText(/next/i))
+    fireEvent.click(screen.getByText("C"));
+    fireEvent.click(screen.getByText(/next/i));
 
-    expect(screen.getByText(/submit test/i)).toBeInTheDocument()
-  })
+    expect(screen.getByText(/submit test/i)).toBeInTheDocument();
+  });
 
   it("navigates to result page on submit", () => {
-    renderTestPage()
+    renderTestPage();
 
-    fireEvent.click(screen.getByText("C"))
-    fireEvent.click(screen.getByText(/next/i))
-    fireEvent.click(screen.getByText("B"))
-    fireEvent.click(screen.getByText(/submit test/i))
+    fireEvent.click(screen.getByText("C"));
+    fireEvent.click(screen.getByText(/next/i));
+    fireEvent.click(screen.getByText("B"));
+    fireEvent.click(screen.getByText(/submit test/i));
 
-    expect(screen.getByText("Result Page")).toBeInTheDocument()
-  })
+    expect(screen.getByText("Result Page")).toBeInTheDocument();
+  });
 
   it("renders timer", () => {
-    renderTestPage()
+    renderTestPage();
 
-    expect(screen.getByText(/\d{2}:\d{2}/)).toBeInTheDocument()
-  })
-})
+    expect(screen.getByText(/\d{2}:\d{2}/)).toBeInTheDocument();
+  });
+});

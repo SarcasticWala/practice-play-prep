@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Question } from '@/types/quiz';
+import { useState, useEffect } from "react";
+import { Question } from "@/types/quiz";
 
 export interface Bookmark {
   question: Question;
@@ -8,7 +8,7 @@ export interface Bookmark {
   addedAt: string;
 }
 
-const STORAGE_KEY = 'tcs-nqt-bookmarks';
+const STORAGE_KEY = "tcs-nqt-bookmarks";
 
 export function useBookmarks() {
   const [bookmarks, setBookmarks] = useState<Bookmark[]>(() => {
@@ -24,18 +24,25 @@ export function useBookmarks() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(bookmarks));
   }, [bookmarks]);
 
-  const toggleBookmark = (question: Question, topicId: string, topicName: string) => {
-    setBookmarks(prev => {
-      const exists = prev.find(b => b.question.id === question.id);
+  const toggleBookmark = (
+    question: Question,
+    topicId: string,
+    topicName: string,
+  ) => {
+    setBookmarks((prev) => {
+      const exists = prev.find((b) => b.question.id === question.id);
       if (exists) {
-        return prev.filter(b => b.question.id !== question.id);
+        return prev.filter((b) => b.question.id !== question.id);
       }
-      return [...prev, { question, topicId, topicName, addedAt: new Date().toISOString() }];
+      return [
+        ...prev,
+        { question, topicId, topicName, addedAt: new Date().toISOString() },
+      ];
     });
   };
 
   const isBookmarked = (questionId: string) => {
-    return bookmarks.some(b => b.question.id === questionId);
+    return bookmarks.some((b) => b.question.id === questionId);
   };
 
   const clearBookmarks = () => {

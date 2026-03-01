@@ -68,7 +68,7 @@ function shuffle<T>(arr: T[]): T[] {
 /** Distribute `count` questions evenly across topics, tagging each with source */
 function distributeQuestions(
   topics: { id: string; name: string }[],
-  count: number
+  count: number,
 ): TaggedQuestion[] {
   const perTopic = Math.max(1, Math.floor(count / topics.length));
   const remainder = count - perTopic * topics.length;
@@ -216,22 +216,22 @@ const MockTestPage = () => {
       <header className="bg-gradient-to-r from-primary via-primary/95 to-accent/80 text-primary-foreground px-4 py-3 shadow-lg">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center justify-between gap-2 sm:gap-3">
-          <button
-            onClick={() => navigate("/")}
-            className="nav-back-btn"
-            aria-label="Go back to home"
-          >
-            <ArrowLeft size={16} />
-            Back
-          </button>
-          <div className="min-w-0 px-3 py-2 sm:px-4 sm:py-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20">
-            <h1 className="font-secondary font-bold text-base sm:text-lg truncate">
-              TCS NQT Mock Test
-            </h1>
-            <p className="text-xs text-primary-foreground/80">
-              Q {currentIndex + 1} of {allQuestions.length}
-            </p>
-          </div>
+            <button
+              onClick={() => navigate("/")}
+              className="nav-back-btn"
+              aria-label="Go back to home"
+            >
+              <ArrowLeft size={16} />
+              Back
+            </button>
+            <div className="min-w-0 px-3 py-2 sm:px-4 sm:py-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20">
+              <h1 className="font-secondary font-bold text-base sm:text-lg truncate">
+                TCS NQT Mock Test
+              </h1>
+              <p className="text-xs text-primary-foreground/80">
+                Q {currentIndex + 1} of {allQuestions.length}
+              </p>
+            </div>
           </div>
           <div className="flex items-center gap-2 self-end sm:self-auto">
             <ScientificCalculatorModal
@@ -245,7 +245,8 @@ const MockTestPage = () => {
             <div
               className={`font-mono-timer text-lg sm:text-xl font-bold px-3 py-2 sm:px-4 rounded-lg ${isLowTime ? "bg-destructive text-destructive-foreground timer-pulse" : "bg-primary-foreground/10"}`}
             >
-              {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
+              {String(minutes).padStart(2, "0")}:
+              {String(seconds).padStart(2, "0")}
             </div>
           </div>
         </div>

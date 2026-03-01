@@ -7,8 +7,8 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import ScientificCalculatorModal from '@/components/ScientificCalculator';
-import { FaCalculator } from 'react-icons/fa';
+import ScientificCalculatorModal from "@/components/ScientificCalculator";
+import { FaCalculator } from "react-icons/fa";
 import { getQuestions } from "@/data/questions";
 import { topics } from "@/data/topics";
 import { Question, UserAnswer } from "@/types/quiz";
@@ -20,7 +20,9 @@ const TestPage = () => {
   const topic = topics.find((t) => t.id === topicId);
   const { isBookmarked, toggleBookmark } = useBookmarks();
 
-  const [questions] = useState<Question[]>(() => getQuestions(topicId || "", 50));
+  const [questions] = useState<Question[]>(() =>
+    getQuestions(topicId || "", 50),
+  );
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number | null>>({});
   const [revealed, setRevealed] = useState<Record<string, boolean>>({});
@@ -37,7 +39,9 @@ const TestPage = () => {
       selectedOption: answers[q.id] ?? null,
     }));
 
-    const correct = questions.filter((q) => answers[q.id] === q.correctAnswer).length;
+    const correct = questions.filter(
+      (q) => answers[q.id] === q.correctAnswer,
+    ).length;
     const attempted = Object.values(answers).filter(
       (v) => v !== null && v !== undefined,
     ).length;
@@ -73,7 +77,8 @@ const TestPage = () => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (!submitted) {
         e.preventDefault();
-        e.returnValue = "You have an ongoing test. Are you sure you want to leave?";
+        e.returnValue =
+          "You have an ongoing test. Are you sure you want to leave?";
       }
     };
 
@@ -148,7 +153,8 @@ const TestPage = () => {
                 : "bg-primary-foreground/10"
             }`}
           >
-            {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
+            {String(minutes).padStart(2, "0")}:
+            {String(seconds).padStart(2, "0")}
           </div>
           {/* calculator trigger for quick access during tests */}
           <div className="ml-3">
@@ -187,14 +193,19 @@ const TestPage = () => {
         </div>
       </div>
 
-      <main className="flex-1 max-w-3xl w-full mx-auto px-4 py-4 sm:py-6 fade-in" key={currentIndex}>
+      <main
+        className="flex-1 max-w-3xl w-full mx-auto px-4 py-4 sm:py-6 fade-in"
+        key={currentIndex}
+      >
         <div className="bg-card/90 backdrop-blur-sm rounded-xl border border-border p-4 sm:p-6 mb-6 shadow-sm">
           <div className="flex items-start justify-between gap-2">
             <p className="text-xs text-muted-foreground mb-2 font-semibold">
               QUESTION {currentIndex + 1}
             </p>
             <button
-              onClick={() => toggleBookmark(currentQ, topicId || "", topic?.name || "")}
+              onClick={() =>
+                toggleBookmark(currentQ, topicId || "", topic?.name || "")
+              }
               className={`inline-flex h-9 w-9 items-center justify-center rounded-full border transition-all hover:scale-105 ${
                 bookmarked
                   ? "border-accent/50 bg-accent/15 text-accent"
@@ -202,7 +213,11 @@ const TestPage = () => {
               }`}
               title={bookmarked ? "Remove bookmark" : "Bookmark this question"}
             >
-              {bookmarked ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}
+              {bookmarked ? (
+                <BookmarkCheck size={16} />
+              ) : (
+                <Bookmark size={16} />
+              )}
             </button>
           </div>
           <p className="font-secondary text-base sm:text-lg font-bold text-card-foreground leading-relaxed">
@@ -245,11 +260,17 @@ const TestPage = () => {
                 </span>
                 <span className="text-card-foreground">{opt}</span>
                 {isRevealed && i === currentQ.correctAnswer && (
-                  <span className="ml-auto text-success font-bold text-sm">Correct</span>
+                  <span className="ml-auto text-success font-bold text-sm">
+                    Correct
+                  </span>
                 )}
-                {isRevealed && i === selectedAnswer && i !== currentQ.correctAnswer && (
-                  <span className="ml-auto text-destructive font-bold text-sm">Wrong</span>
-                )}
+                {isRevealed &&
+                  i === selectedAnswer &&
+                  i !== currentQ.correctAnswer && (
+                    <span className="ml-auto text-destructive font-bold text-sm">
+                      Wrong
+                    </span>
+                  )}
               </button>
             );
           })}
@@ -267,7 +288,9 @@ const TestPage = () => {
               ? "Correct answer."
               : `Incorrect. The correct answer is ${String.fromCharCode(65 + currentQ.correctAnswer)}.`}
             {currentQ.explanation && (
-              <p className="mt-2 text-card-foreground/80">{currentQ.explanation}</p>
+              <p className="mt-2 text-card-foreground/80">
+                {currentQ.explanation}
+              </p>
             )}
           </div>
         )}

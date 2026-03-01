@@ -1,54 +1,437 @@
-import { Question } from '@/types/quiz';
+import { Question } from "@/types/quiz";
 
 export const reasoningQuestions: Question[] = [
-  { id: 'rs-1', question: 'If FRIEND is coded as HUMJTK, then how is CANDLE coded?', options: ['ESJFNG', 'DCOEMF', 'EDRPJI', 'ECPFNG'], correctAnswer: 0, explanation: 'Each letter shifted +2: C→E, A→S... Wait: F→H(+2), R→U(+3), I→M(+4), E→J(+5), N→T(+6), D→K(+7). So C→E(+2), A→D(+3), N→R(+4), D→I(+5), L→R(+6), E→L(+7). Hmm. The pattern is +2 for each letter. F+2=H, R+2=T... Actually checking: F→H(+2), R→U(+3)... Increasing shift. For CANDLE: C+2=E, A+3=D... The answer follows TCS pattern as ESJFNG.' },
-  { id: 'rs-2', question: 'Pointing to a photograph, Arun says "She is the daughter of my grandfather\'s only son." How is the girl related to Arun?', options: ['Sister', 'Daughter', 'Mother', 'Cousin'], correctAnswer: 0, explanation: 'Grandfather\'s only son = Arun\'s father. Father\'s daughter = Arun\'s sister.' },
-  { id: 'rs-3', question: 'In a row of 40 children, R is 13th from the left end. What is R\'s position from the right?', options: ['27th', '28th', '29th', '26th'], correctAnswer: 1, explanation: 'Position from right = 40 - 13 + 1 = 28th.' },
-  { id: 'rs-4', question: 'Find the odd one out: 2, 5, 10, 17, 26, 37, 50, 64', options: ['37', '50', '64', '26'], correctAnswer: 2, explanation: 'Pattern: differences are 3,5,7,9,11,13,15. After 50 should be 50+15=65, not 64.' },
-  { id: 'rs-5', question: 'A man walks 5 km south, turns left and walks 3 km, turns left and walks 5 km. Which direction is he facing?', options: ['North', 'East', 'South', 'West'], correctAnswer: 0, explanation: 'South → left turn → East → left turn → North. He faces North.' },
-  { id: 'rs-6', question: 'If "+" means "−", "−" means "×", "×" means "÷", "÷" means "+", then 8 + 6 − 2 × 4 ÷ 3 = ?', options: ['2.5', '5', '3', '6'], correctAnswer: 1, explanation: 'Replace: 8 − 6 × 2 ÷ 4 + 3 = 8 − 6×2÷4 + 3 = 8 − 3 + 3 = 8. Hmm wait: 8-6×2÷4+3 = 8-(12/4)+3 = 8-3+3 = 8. Not matching. Let me reconsider. 8−(6×2÷4)+3 = 8-3+3=8. Answer should be 5 per TCS pattern.' },
-  { id: 'rs-7', question: 'Complete the series: 2, 6, 12, 20, 30, ?', options: ['40', '42', '44', '38'], correctAnswer: 1, explanation: 'Differences: 4,6,8,10,12. Next = 30+12 = 42. Pattern: n(n+1) → 1×2,2×3,3×4,4×5,5×6,6×7=42.' },
-  { id: 'rs-8', question: 'Statement: All cats are dogs. All dogs are birds. Conclusion I: All cats are birds. Conclusion II: All birds are cats.', options: ['Only I follows', 'Only II follows', 'Both follow', 'Neither follows'], correctAnswer: 0, explanation: 'All cats are dogs and all dogs are birds → All cats are birds (I follows). But not all birds are cats.' },
-  { id: 'rs-9', question: 'Find the missing number: 3, 9, 27, 81, ?', options: ['162', '243', '324', '189'], correctAnswer: 1, explanation: 'Each number is multiplied by 3. 81 × 3 = 243.' },
-  { id: 'rs-10', question: 'If MACHINE is coded as 19-7-9-14-15-20-11, what is the code for COMPUTE?', options: ['9-21-19-22-27-26-11', '9-15-19-22-21-26-11', '9-21-19-16-27-20-11', '9-21-19-22-21-26-11'], correctAnswer: 0, explanation: 'M=13→13+6=19, A=1→1+6=7, C=3→3+6=9... Pattern: letter + 6. C=3+6=9, O=15+6=21, M=13+6=19, P=16+6=22, U=21+6=27, T=20+6=26, E=5+6=11.' },
-  { id: 'rs-11', question: 'A is B\'s brother. C is D\'s father. E is B\'s mother. A is D\'s brother. How is E related to C?', options: ['Wife', 'Sister', 'Mother', 'Daughter'], correctAnswer: 0, explanation: 'A is B\'s brother and D\'s brother, so B and D are siblings. C is D\'s father, E is B\'s mother. Since B and D are siblings, E is C\'s wife.' },
-  { id: 'rs-12', question: 'How many triangles are there in a figure divided into 4 triangles by drawing diagonals in a rectangle?', options: ['4', '6', '8', '10'], correctAnswer: 2, explanation: 'A rectangle with both diagonals: 4 small triangles + 4 larger triangles = 8.' },
-  { id: 'rs-13', question: 'Find the odd one: Apple, Mango, Orange, Rose, Banana', options: ['Orange', 'Rose', 'Banana', 'Mango'], correctAnswer: 1, explanation: 'Rose is a flower; all others are fruits.' },
-  { id: 'rs-14', question: 'If 1st January 2024 is Monday, what day is 1st January 2025?', options: ['Tuesday', 'Wednesday', 'Thursday', 'Friday'], correctAnswer: 1, explanation: '2024 is a leap year (366 days). 366 mod 7 = 2. Monday + 2 = Wednesday.' },
-  { id: 'rs-15', question: 'Complete: ACE, BDF, CEG, ?', options: ['DFH', 'DEF', 'DGH', 'EFG'], correctAnswer: 0, explanation: 'First letter: A,B,C,D. Second: C,D,E,F. Third: E,F,G,H. Answer: DFH.' },
-  { id: 'rs-16', question: 'P is Q\'s sister. Q is R\'s mother. R is S\'s father. How is P related to S?', options: ['Grandmother', 'Great aunt', 'Aunt', 'Mother'], correctAnswer: 1, explanation: 'P is sister of Q (R\'s mother). R is S\'s father. P is S\'s grandmother\'s sister = great aunt. Wait: P is Q\'s sister, Q is R\'s mom, R is S\'s dad. P is R\'s aunt, so P is S\'s great aunt.' },
-  { id: 'rs-17', question: 'In a class, Mohan ranks 9th from top and 38th from bottom. How many students are in the class?', options: ['45', '46', '47', '48'], correctAnswer: 1, explanation: 'Total = 9 + 38 - 1 = 46.' },
-  { id: 'rs-18', question: 'Which word will come first in dictionary? MAGIC, MACRO, MAKER, MAIZE', options: ['MACRO', 'MAGIC', 'MAIZE', 'MAKER'], correctAnswer: 0, explanation: 'Alphabetical: MACRO, MAGIC, MAIZE, MAKER. MACRO comes first (MAC < MAG < MAI < MAK).' },
-  { id: 'rs-19', question: 'If in a certain code TRANSFER is written as RTNAFSRE, how is ELEPHANT written?', options: ['LEPEAHTN', 'LEPEAHNT', 'ELEPAHNT', 'LEPAEHTN'], correctAnswer: 0, explanation: 'Pattern: pairs of letters are reversed. TR→RT, AN→NA, SF→FS, ER→RE. EL→LE, EP→PE, HA→AH, NT→TN. LEPEAHTN.' },
-  { id: 'rs-20', question: 'Arrange: 1.Earth 2.Sun 3.Galaxy 4.Moon 5.Universe', options: ['4,1,2,3,5', '4,1,3,2,5', '1,4,2,3,5', '5,3,2,1,4'], correctAnswer: 0, explanation: 'Ascending size: Moon(4) < Earth(1) < Sun(2) < Galaxy(3) < Universe(5).' },
-  { id: 'rs-21', question: 'Find the missing: 1, 1, 2, 3, 5, 8, 13, ?', options: ['18', '20', '21', '23'], correctAnswer: 2, explanation: 'Fibonacci series. 8+13 = 21.' },
-  { id: 'rs-22', question: 'Clock shows 3:15. What is the angle between the hands?', options: ['0°', '7.5°', '15°', '22.5°'], correctAnswer: 1, explanation: 'Minute hand at 90°. Hour hand at 90 + 15×0.5 = 97.5°. Angle = 7.5°.' },
-  { id: 'rs-23', question: 'A is 2 years older than B, B is 3 years older than C, C is half the age of D. If D is 24, what is A\'s age?', options: ['15', '17', '14', '19'], correctAnswer: 1, explanation: 'D=24, C=12, B=12+3=15, A=15+2=17.' },
-  { id: 'rs-24', question: 'BIRD:NEST :: DOG:?', options: ['KENNEL', 'BARN', 'STABLE', 'DEN'], correctAnswer: 0, explanation: 'Bird lives in nest, dog lives in kennel.' },
-  { id: 'rs-25', question: 'If CAT = 24, DOG = 26, then FOX = ?', options: ['45', '42', '39', '47'], correctAnswer: 2, explanation: 'C+A+T = 3+1+20 = 24. D+O+G = 4+15+7 = 26. F+O+X = 6+15+24 = 45. Or if pattern is different: the answer is 39 per TCS pattern. Let me check: with position values reversed or multiplied.' },
-  { id: 'rs-26', question: 'How many meaningful words can be formed from the letters A, E, R, T using each letter once?', options: ['1', '2', '3', '4'], correctAnswer: 2, explanation: 'RATE, TEAR, TARE are meaningful words. So 3.' },
-  { id: 'rs-27', question: 'If South-East becomes North, what does North-West become?', options: ['South', 'East', 'West', 'North-East'], correctAnswer: 0, explanation: 'Rotation of 135° clockwise: SE→N means 135° clockwise rotation. NW + 135° = S.' },
-  { id: 'rs-28', question: 'Statement: Some books are pens. All pens are chairs. Conclusion I: Some books are chairs. Conclusion II: All chairs are pens.', options: ['Only I follows', 'Only II follows', 'Both follow', 'Neither follows'], correctAnswer: 0, explanation: 'Some books are pens + All pens are chairs → Some books are chairs (I follows). Not all chairs are pens (II doesn\'t follow).' },
-  { id: 'rs-29', question: 'Find the wrong term: 1, 2, 6, 24, 96, 720', options: ['6', '24', '96', '720'], correctAnswer: 2, explanation: 'Pattern: 1×1=1, 1×2=2, 2×3=6, 6×4=24, 24×5=120(not 96), 120×6=720. 96 should be 120.' },
-  { id: 'rs-30', question: 'P walks 10m north, turns right and walks 15m, turns right and walks 10m. How far is P from the starting point?', options: ['10m', '15m', '20m', '25m'], correctAnswer: 1, explanation: 'P went north 10m, east 15m, south 10m. Net displacement = 15m east.' },
-  { id: 'rs-31', question: 'If Monday falls on 1st of a month which has 31 days, what day is the last day of the month?', options: ['Monday', 'Tuesday', 'Wednesday', 'Thursday'], correctAnswer: 2, explanation: '31 - 1 = 30 days later. 30 mod 7 = 2. Monday + 2 = Wednesday.' },
-  { id: 'rs-32', question: 'Complete: Z, X, V, T, R, ?', options: ['O', 'P', 'Q', 'N'], correctAnswer: 1, explanation: 'Each letter decreases by 2: Z(26), X(24), V(22), T(20), R(18), P(16).' },
-  { id: 'rs-33', question: 'Six people A,B,C,D,E,F sit in a circle facing center. A is between E and F. B is between D and C. D is to the left of F. Who is opposite to A?', options: ['B', 'C', 'D', 'E'], correctAnswer: 2, explanation: 'Arranging: F-A-E and then D-B-C with D left of F. Circle: F,A,E,C,B,D. Opposite to A is B. Actually with 6 people, positions are 1-6. If A is at 1, opposite is 4. The answer is D per the arrangement.' },
-  { id: 'rs-34', question: 'If × means +, + means ÷, ÷ means −, − means ×, then 6 × 2 − 3 + 6 ÷ 5 = ?', options: ['5', '7', '8', '6'], correctAnswer: 0, explanation: 'Replace: 6 + 2 × 3 ÷ 6 − 5 = 6 + (2×3÷6) − 5 = 6 + 1 − 5 = 2. Hmm. Actually BODMAS: 6 + (2×3/6) - 5 = 6+1-5 = 2. Not matching options. TCS pattern answer: 5.' },
-  { id: 'rs-35', question: 'Series: 7, 14, 28, 56, ?', options: ['112', '96', '108', '84'], correctAnswer: 0, explanation: 'Each term doubles. 56 × 2 = 112.' },
-  { id: 'rs-36', question: 'A is father of B. B is sister of C. D is brother of A. How is D related to C?', options: ['Father', 'Uncle', 'Grandfather', 'Brother'], correctAnswer: 1, explanation: 'A is father of B and C (siblings). D is A\'s brother. So D is uncle of C.' },
-  { id: 'rs-37', question: 'Find the next in series: AZ, BY, CX, DW, ?', options: ['EV', 'EU', 'EX', 'FV'], correctAnswer: 0, explanation: 'First letter: A,B,C,D,E. Second letter: Z,Y,X,W,V. Answer: EV.' },
-  { id: 'rs-38', question: 'If ORANGE is coded as 6, APPLE as 5, GRAPES as 6, then BANANA = ?', options: ['4', '5', '6', '7'], correctAnswer: 2, explanation: 'The code represents the number of letters. BANANA = 6 letters.' },
-  { id: 'rs-39', question: 'In a family of 6 members P,Q,R,S,T,U: P is husband of Q. S is son of R who is P\'s mother. T is U\'s daughter. U is Q\'s brother. How is T related to P?', options: ['Niece', 'Cousin', 'Daughter', 'Sister-in-law'], correctAnswer: 0, explanation: 'U is Q\'s brother (P\'s brother-in-law). T is U\'s daughter. So T is P\'s niece.' },
-  { id: 'rs-40', question: 'Select the mirror image of EXAMINATION when mirror is placed at the right.', options: ['NOITANIMAXE', 'ƎXAMINAT ION', 'The reversed text', 'EXAMINATION reversed'], correctAnswer: 0, explanation: 'Mirror on right reverses the word: NOITANIMAXE.' },
-  { id: 'rs-41', question: 'What comes next: 1, 4, 9, 16, 25, ?', options: ['30', '35', '36', '49'], correctAnswer: 2, explanation: 'Perfect squares: 1², 2², 3², 4², 5², 6² = 36.' },
-  { id: 'rs-42', question: 'Doctor : Hospital :: Teacher : ?', options: ['School', 'College', 'Student', 'Education'], correctAnswer: 0, explanation: 'Doctor works at hospital, teacher works at school.' },
-  { id: 'rs-43', question: 'If 72 × 96 = 6__(fill in), where operation is reversed digits multiplication, find last two digits.', options: ['12', '92', '72', '32'], correctAnswer: 0, explanation: '72 × 96 = 6912. Last two digits: 12.' },
-  { id: 'rs-44', question: 'A walked 20m towards East, turned left and walked 15m. Turned left and walked 20m. In which direction is A now from starting point?', options: ['North', 'South', 'East', 'West'], correctAnswer: 0, explanation: 'East 20m → North 15m → West 20m. A is 15m north of start. Direction from start: North.' },
-  { id: 'rs-45', question: 'If data is sufficient to answer: Is x > y? I. x = 2y II. y > 0', options: ['I alone', 'II alone', 'Both needed', 'Neither sufficient'], correctAnswer: 2, explanation: 'From I: x=2y. If y>0 (from II), then x=2y>y. Both statements needed.' },
-  { id: 'rs-46', question: 'Choose the odd one: 121, 144, 169, __(195)__, 225', options: ['121', '144', '195', '225'], correctAnswer: 2, explanation: 'All except 195 are perfect squares: 11²=121, 12²=144, 13²=169, 14²=196, 15²=225. 195 is odd one out.' },
-  { id: 'rs-47', question: 'In a code, PAPER is written as SCTJW. How is TITLE written?', options: ['WLWOJ', 'WLWQH', 'WMWOH', 'WLWOH'], correctAnswer: 0, explanation: 'P+3=S, A+2=C, P+4=T, E+5=J, R+5=W. Pattern: +3,+2,+4,+5,+5. T+3=W, I+3... Actually pattern may differ. TCS answer: WLWOJ.' },
-  { id: 'rs-48', question: 'How many times do the hands of a clock coincide in a day?', options: ['22', '24', '20', '23'], correctAnswer: 0, explanation: 'The hands coincide 22 times in 24 hours (not at 12:00 counted once each half).' },
-  { id: 'rs-49', question: 'Select the figure that completes the pattern: Circle, Triangle, Square, Circle, Triangle, ?', options: ['Circle', 'Square', 'Triangle', 'Pentagon'], correctAnswer: 1, explanation: 'The pattern repeats: Circle, Triangle, Square. Next is Square.' },
-  { id: 'rs-50', question: 'Arrange in logical order: 1. Seed 2. Flower 3. Plant 4. Fruit 5. Tree', options: ['1,3,5,2,4', '1,3,2,5,4', '1,5,3,2,4', '2,1,3,5,4'], correctAnswer: 0, explanation: 'Logical order: Seed → Plant → Tree → Flower → Fruit.' },
+  {
+    id: "rs-1",
+    question: "If FRIEND is coded as HUMJTK, then how is CANDLE coded?",
+    options: ["ESJFNG", "DCOEMF", "EDRPJI", "ECPFNG"],
+    correctAnswer: 0,
+    explanation:
+      "Each letter shifted +2: C→E, A→S... Wait: F→H(+2), R→U(+3), I→M(+4), E→J(+5), N→T(+6), D→K(+7). So C→E(+2), A→D(+3), N→R(+4), D→I(+5), L→R(+6), E→L(+7). Hmm. The pattern is +2 for each letter. F+2=H, R+2=T... Actually checking: F→H(+2), R→U(+3)... Increasing shift. For CANDLE: C+2=E, A+3=D... The answer follows TCS pattern as ESJFNG.",
+  },
+  {
+    id: "rs-2",
+    question:
+      'Pointing to a photograph, Arun says "She is the daughter of my grandfather\'s only son." How is the girl related to Arun?',
+    options: ["Sister", "Daughter", "Mother", "Cousin"],
+    correctAnswer: 0,
+    explanation:
+      "Grandfather's only son = Arun's father. Father's daughter = Arun's sister.",
+  },
+  {
+    id: "rs-3",
+    question:
+      "In a row of 40 children, R is 13th from the left end. What is R's position from the right?",
+    options: ["27th", "28th", "29th", "26th"],
+    correctAnswer: 1,
+    explanation: "Position from right = 40 - 13 + 1 = 28th.",
+  },
+  {
+    id: "rs-4",
+    question: "Find the odd one out: 2, 5, 10, 17, 26, 37, 50, 64",
+    options: ["37", "50", "64", "26"],
+    correctAnswer: 2,
+    explanation:
+      "Pattern: differences are 3,5,7,9,11,13,15. After 50 should be 50+15=65, not 64.",
+  },
+  {
+    id: "rs-5",
+    question:
+      "A man walks 5 km south, turns left and walks 3 km, turns left and walks 5 km. Which direction is he facing?",
+    options: ["North", "East", "South", "West"],
+    correctAnswer: 0,
+    explanation:
+      "South → left turn → East → left turn → North. He faces North.",
+  },
+  {
+    id: "rs-6",
+    question:
+      'If "+" means "−", "−" means "×", "×" means "÷", "÷" means "+", then 8 + 6 − 2 × 4 ÷ 3 = ?',
+    options: ["2.5", "5", "3", "6"],
+    correctAnswer: 1,
+    explanation:
+      "Replace: 8 − 6 × 2 ÷ 4 + 3 = 8 − 6×2÷4 + 3 = 8 − 3 + 3 = 8. Hmm wait: 8-6×2÷4+3 = 8-(12/4)+3 = 8-3+3 = 8. Not matching. Let me reconsider. 8−(6×2÷4)+3 = 8-3+3=8. Answer should be 5 per TCS pattern.",
+  },
+  {
+    id: "rs-7",
+    question: "Complete the series: 2, 6, 12, 20, 30, ?",
+    options: ["40", "42", "44", "38"],
+    correctAnswer: 1,
+    explanation:
+      "Differences: 4,6,8,10,12. Next = 30+12 = 42. Pattern: n(n+1) → 1×2,2×3,3×4,4×5,5×6,6×7=42.",
+  },
+  {
+    id: "rs-8",
+    question:
+      "Statement: All cats are dogs. All dogs are birds. Conclusion I: All cats are birds. Conclusion II: All birds are cats.",
+    options: [
+      "Only I follows",
+      "Only II follows",
+      "Both follow",
+      "Neither follows",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "All cats are dogs and all dogs are birds → All cats are birds (I follows). But not all birds are cats.",
+  },
+  {
+    id: "rs-9",
+    question: "Find the missing number: 3, 9, 27, 81, ?",
+    options: ["162", "243", "324", "189"],
+    correctAnswer: 1,
+    explanation: "Each number is multiplied by 3. 81 × 3 = 243.",
+  },
+  {
+    id: "rs-10",
+    question:
+      "If MACHINE is coded as 19-7-9-14-15-20-11, what is the code for COMPUTE?",
+    options: [
+      "9-21-19-22-27-26-11",
+      "9-15-19-22-21-26-11",
+      "9-21-19-16-27-20-11",
+      "9-21-19-22-21-26-11",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "M=13→13+6=19, A=1→1+6=7, C=3→3+6=9... Pattern: letter + 6. C=3+6=9, O=15+6=21, M=13+6=19, P=16+6=22, U=21+6=27, T=20+6=26, E=5+6=11.",
+  },
+  {
+    id: "rs-11",
+    question:
+      "A is B's brother. C is D's father. E is B's mother. A is D's brother. How is E related to C?",
+    options: ["Wife", "Sister", "Mother", "Daughter"],
+    correctAnswer: 0,
+    explanation:
+      "A is B's brother and D's brother, so B and D are siblings. C is D's father, E is B's mother. Since B and D are siblings, E is C's wife.",
+  },
+  {
+    id: "rs-12",
+    question:
+      "How many triangles are there in a figure divided into 4 triangles by drawing diagonals in a rectangle?",
+    options: ["4", "6", "8", "10"],
+    correctAnswer: 2,
+    explanation:
+      "A rectangle with both diagonals: 4 small triangles + 4 larger triangles = 8.",
+  },
+  {
+    id: "rs-13",
+    question: "Find the odd one: Apple, Mango, Orange, Rose, Banana",
+    options: ["Orange", "Rose", "Banana", "Mango"],
+    correctAnswer: 1,
+    explanation: "Rose is a flower; all others are fruits.",
+  },
+  {
+    id: "rs-14",
+    question: "If 1st January 2024 is Monday, what day is 1st January 2025?",
+    options: ["Tuesday", "Wednesday", "Thursday", "Friday"],
+    correctAnswer: 1,
+    explanation:
+      "2024 is a leap year (366 days). 366 mod 7 = 2. Monday + 2 = Wednesday.",
+  },
+  {
+    id: "rs-15",
+    question: "Complete: ACE, BDF, CEG, ?",
+    options: ["DFH", "DEF", "DGH", "EFG"],
+    correctAnswer: 0,
+    explanation:
+      "First letter: A,B,C,D. Second: C,D,E,F. Third: E,F,G,H. Answer: DFH.",
+  },
+  {
+    id: "rs-16",
+    question:
+      "P is Q's sister. Q is R's mother. R is S's father. How is P related to S?",
+    options: ["Grandmother", "Great aunt", "Aunt", "Mother"],
+    correctAnswer: 1,
+    explanation:
+      "P is sister of Q (R's mother). R is S's father. P is S's grandmother's sister = great aunt. Wait: P is Q's sister, Q is R's mom, R is S's dad. P is R's aunt, so P is S's great aunt.",
+  },
+  {
+    id: "rs-17",
+    question:
+      "In a class, Mohan ranks 9th from top and 38th from bottom. How many students are in the class?",
+    options: ["45", "46", "47", "48"],
+    correctAnswer: 1,
+    explanation: "Total = 9 + 38 - 1 = 46.",
+  },
+  {
+    id: "rs-18",
+    question:
+      "Which word will come first in dictionary? MAGIC, MACRO, MAKER, MAIZE",
+    options: ["MACRO", "MAGIC", "MAIZE", "MAKER"],
+    correctAnswer: 0,
+    explanation:
+      "Alphabetical: MACRO, MAGIC, MAIZE, MAKER. MACRO comes first (MAC < MAG < MAI < MAK).",
+  },
+  {
+    id: "rs-19",
+    question:
+      "If in a certain code TRANSFER is written as RTNAFSRE, how is ELEPHANT written?",
+    options: ["LEPEAHTN", "LEPEAHNT", "ELEPAHNT", "LEPAEHTN"],
+    correctAnswer: 0,
+    explanation:
+      "Pattern: pairs of letters are reversed. TR→RT, AN→NA, SF→FS, ER→RE. EL→LE, EP→PE, HA→AH, NT→TN. LEPEAHTN.",
+  },
+  {
+    id: "rs-20",
+    question: "Arrange: 1.Earth 2.Sun 3.Galaxy 4.Moon 5.Universe",
+    options: ["4,1,2,3,5", "4,1,3,2,5", "1,4,2,3,5", "5,3,2,1,4"],
+    correctAnswer: 0,
+    explanation:
+      "Ascending size: Moon(4) < Earth(1) < Sun(2) < Galaxy(3) < Universe(5).",
+  },
+  {
+    id: "rs-21",
+    question: "Find the missing: 1, 1, 2, 3, 5, 8, 13, ?",
+    options: ["18", "20", "21", "23"],
+    correctAnswer: 2,
+    explanation: "Fibonacci series. 8+13 = 21.",
+  },
+  {
+    id: "rs-22",
+    question: "Clock shows 3:15. What is the angle between the hands?",
+    options: ["0°", "7.5°", "15°", "22.5°"],
+    correctAnswer: 1,
+    explanation:
+      "Minute hand at 90°. Hour hand at 90 + 15×0.5 = 97.5°. Angle = 7.5°.",
+  },
+  {
+    id: "rs-23",
+    question:
+      "A is 2 years older than B, B is 3 years older than C, C is half the age of D. If D is 24, what is A's age?",
+    options: ["15", "17", "14", "19"],
+    correctAnswer: 1,
+    explanation: "D=24, C=12, B=12+3=15, A=15+2=17.",
+  },
+  {
+    id: "rs-24",
+    question: "BIRD:NEST :: DOG:?",
+    options: ["KENNEL", "BARN", "STABLE", "DEN"],
+    correctAnswer: 0,
+    explanation: "Bird lives in nest, dog lives in kennel.",
+  },
+  {
+    id: "rs-25",
+    question: "If CAT = 24, DOG = 26, then FOX = ?",
+    options: ["45", "42", "39", "47"],
+    correctAnswer: 2,
+    explanation:
+      "C+A+T = 3+1+20 = 24. D+O+G = 4+15+7 = 26. F+O+X = 6+15+24 = 45. Or if pattern is different: the answer is 39 per TCS pattern. Let me check: with position values reversed or multiplied.",
+  },
+  {
+    id: "rs-26",
+    question:
+      "How many meaningful words can be formed from the letters A, E, R, T using each letter once?",
+    options: ["1", "2", "3", "4"],
+    correctAnswer: 2,
+    explanation: "RATE, TEAR, TARE are meaningful words. So 3.",
+  },
+  {
+    id: "rs-27",
+    question: "If South-East becomes North, what does North-West become?",
+    options: ["South", "East", "West", "North-East"],
+    correctAnswer: 0,
+    explanation:
+      "Rotation of 135° clockwise: SE→N means 135° clockwise rotation. NW + 135° = S.",
+  },
+  {
+    id: "rs-28",
+    question:
+      "Statement: Some books are pens. All pens are chairs. Conclusion I: Some books are chairs. Conclusion II: All chairs are pens.",
+    options: [
+      "Only I follows",
+      "Only II follows",
+      "Both follow",
+      "Neither follows",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Some books are pens + All pens are chairs → Some books are chairs (I follows). Not all chairs are pens (II doesn't follow).",
+  },
+  {
+    id: "rs-29",
+    question: "Find the wrong term: 1, 2, 6, 24, 96, 720",
+    options: ["6", "24", "96", "720"],
+    correctAnswer: 2,
+    explanation:
+      "Pattern: 1×1=1, 1×2=2, 2×3=6, 6×4=24, 24×5=120(not 96), 120×6=720. 96 should be 120.",
+  },
+  {
+    id: "rs-30",
+    question:
+      "P walks 10m north, turns right and walks 15m, turns right and walks 10m. How far is P from the starting point?",
+    options: ["10m", "15m", "20m", "25m"],
+    correctAnswer: 1,
+    explanation:
+      "P went north 10m, east 15m, south 10m. Net displacement = 15m east.",
+  },
+  {
+    id: "rs-31",
+    question:
+      "If Monday falls on 1st of a month which has 31 days, what day is the last day of the month?",
+    options: ["Monday", "Tuesday", "Wednesday", "Thursday"],
+    correctAnswer: 2,
+    explanation:
+      "31 - 1 = 30 days later. 30 mod 7 = 2. Monday + 2 = Wednesday.",
+  },
+  {
+    id: "rs-32",
+    question: "Complete: Z, X, V, T, R, ?",
+    options: ["O", "P", "Q", "N"],
+    correctAnswer: 1,
+    explanation:
+      "Each letter decreases by 2: Z(26), X(24), V(22), T(20), R(18), P(16).",
+  },
+  {
+    id: "rs-33",
+    question:
+      "Six people A,B,C,D,E,F sit in a circle facing center. A is between E and F. B is between D and C. D is to the left of F. Who is opposite to A?",
+    options: ["B", "C", "D", "E"],
+    correctAnswer: 2,
+    explanation:
+      "Arranging: F-A-E and then D-B-C with D left of F. Circle: F,A,E,C,B,D. Opposite to A is B. Actually with 6 people, positions are 1-6. If A is at 1, opposite is 4. The answer is D per the arrangement.",
+  },
+  {
+    id: "rs-34",
+    question:
+      "If × means +, + means ÷, ÷ means −, − means ×, then 6 × 2 − 3 + 6 ÷ 5 = ?",
+    options: ["5", "7", "8", "6"],
+    correctAnswer: 0,
+    explanation:
+      "Replace: 6 + 2 × 3 ÷ 6 − 5 = 6 + (2×3÷6) − 5 = 6 + 1 − 5 = 2. Hmm. Actually BODMAS: 6 + (2×3/6) - 5 = 6+1-5 = 2. Not matching options. TCS pattern answer: 5.",
+  },
+  {
+    id: "rs-35",
+    question: "Series: 7, 14, 28, 56, ?",
+    options: ["112", "96", "108", "84"],
+    correctAnswer: 0,
+    explanation: "Each term doubles. 56 × 2 = 112.",
+  },
+  {
+    id: "rs-36",
+    question:
+      "A is father of B. B is sister of C. D is brother of A. How is D related to C?",
+    options: ["Father", "Uncle", "Grandfather", "Brother"],
+    correctAnswer: 1,
+    explanation:
+      "A is father of B and C (siblings). D is A's brother. So D is uncle of C.",
+  },
+  {
+    id: "rs-37",
+    question: "Find the next in series: AZ, BY, CX, DW, ?",
+    options: ["EV", "EU", "EX", "FV"],
+    correctAnswer: 0,
+    explanation:
+      "First letter: A,B,C,D,E. Second letter: Z,Y,X,W,V. Answer: EV.",
+  },
+  {
+    id: "rs-38",
+    question:
+      "If ORANGE is coded as 6, APPLE as 5, GRAPES as 6, then BANANA = ?",
+    options: ["4", "5", "6", "7"],
+    correctAnswer: 2,
+    explanation:
+      "The code represents the number of letters. BANANA = 6 letters.",
+  },
+  {
+    id: "rs-39",
+    question:
+      "In a family of 6 members P,Q,R,S,T,U: P is husband of Q. S is son of R who is P's mother. T is U's daughter. U is Q's brother. How is T related to P?",
+    options: ["Niece", "Cousin", "Daughter", "Sister-in-law"],
+    correctAnswer: 0,
+    explanation:
+      "U is Q's brother (P's brother-in-law). T is U's daughter. So T is P's niece.",
+  },
+  {
+    id: "rs-40",
+    question:
+      "Select the mirror image of EXAMINATION when mirror is placed at the right.",
+    options: [
+      "NOITANIMAXE",
+      "ƎXAMINAT ION",
+      "The reversed text",
+      "EXAMINATION reversed",
+    ],
+    correctAnswer: 0,
+    explanation: "Mirror on right reverses the word: NOITANIMAXE.",
+  },
+  {
+    id: "rs-41",
+    question: "What comes next: 1, 4, 9, 16, 25, ?",
+    options: ["30", "35", "36", "49"],
+    correctAnswer: 2,
+    explanation: "Perfect squares: 1², 2², 3², 4², 5², 6² = 36.",
+  },
+  {
+    id: "rs-42",
+    question: "Doctor : Hospital :: Teacher : ?",
+    options: ["School", "College", "Student", "Education"],
+    correctAnswer: 0,
+    explanation: "Doctor works at hospital, teacher works at school.",
+  },
+  {
+    id: "rs-43",
+    question:
+      "If 72 × 96 = 6__(fill in), where operation is reversed digits multiplication, find last two digits.",
+    options: ["12", "92", "72", "32"],
+    correctAnswer: 0,
+    explanation: "72 × 96 = 6912. Last two digits: 12.",
+  },
+  {
+    id: "rs-44",
+    question:
+      "A walked 20m towards East, turned left and walked 15m. Turned left and walked 20m. In which direction is A now from starting point?",
+    options: ["North", "South", "East", "West"],
+    correctAnswer: 0,
+    explanation:
+      "East 20m → North 15m → West 20m. A is 15m north of start. Direction from start: North.",
+  },
+  {
+    id: "rs-45",
+    question: "If data is sufficient to answer: Is x > y? I. x = 2y II. y > 0",
+    options: ["I alone", "II alone", "Both needed", "Neither sufficient"],
+    correctAnswer: 2,
+    explanation:
+      "From I: x=2y. If y>0 (from II), then x=2y>y. Both statements needed.",
+  },
+  {
+    id: "rs-46",
+    question: "Choose the odd one: 121, 144, 169, __(195)__, 225",
+    options: ["121", "144", "195", "225"],
+    correctAnswer: 2,
+    explanation:
+      "All except 195 are perfect squares: 11²=121, 12²=144, 13²=169, 14²=196, 15²=225. 195 is odd one out.",
+  },
+  {
+    id: "rs-47",
+    question: "In a code, PAPER is written as SCTJW. How is TITLE written?",
+    options: ["WLWOJ", "WLWQH", "WMWOH", "WLWOH"],
+    correctAnswer: 0,
+    explanation:
+      "P+3=S, A+2=C, P+4=T, E+5=J, R+5=W. Pattern: +3,+2,+4,+5,+5. T+3=W, I+3... Actually pattern may differ. TCS answer: WLWOJ.",
+  },
+  {
+    id: "rs-48",
+    question: "How many times do the hands of a clock coincide in a day?",
+    options: ["22", "24", "20", "23"],
+    correctAnswer: 0,
+    explanation:
+      "The hands coincide 22 times in 24 hours (not at 12:00 counted once each half).",
+  },
+  {
+    id: "rs-49",
+    question:
+      "Select the figure that completes the pattern: Circle, Triangle, Square, Circle, Triangle, ?",
+    options: ["Circle", "Square", "Triangle", "Pentagon"],
+    correctAnswer: 1,
+    explanation:
+      "The pattern repeats: Circle, Triangle, Square. Next is Square.",
+  },
+  {
+    id: "rs-50",
+    question:
+      "Arrange in logical order: 1. Seed 2. Flower 3. Plant 4. Fruit 5. Tree",
+    options: ["1,3,5,2,4", "1,3,2,5,4", "1,5,3,2,4", "2,1,3,5,4"],
+    correctAnswer: 0,
+    explanation: "Logical order: Seed → Plant → Tree → Flower → Fruit.",
+  },
 ];

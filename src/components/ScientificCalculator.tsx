@@ -1,16 +1,20 @@
-import { useState, useCallback, useEffect } from "react"
-import * as DialogPrimitive from "@radix-ui/react-dialog"
-import { DialogTrigger, DialogOverlay, DialogClose } from "@/components/ui/dialog"
-import { X } from "lucide-react"
+import { useState, useCallback, useEffect } from "react";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
+import {
+  DialogTrigger,
+  DialogOverlay,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { X } from "lucide-react";
 
 // ── helpers ────────────────────────────────────────────────────────────────
 const factorial = (n) => {
-  if (n < 0) return NaN
-  if (n === 0 || n === 1) return 1
-  let r = 1
-  for (let i = 2; i <= n; i++) r *= i
-  return r
-}
+  if (n < 0) return NaN;
+  if (n === 0 || n === 1) return 1;
+  let r = 1;
+  for (let i = 2; i <= n; i++) r *= i;
+  return r;
+};
 
 const safeEval = (expr) => {
   try {
@@ -27,70 +31,70 @@ const safeEval = (expr) => {
       .replace(/ln\(/g, "Math.log(")
       .replace(/√\(/g, "Math.sqrt(")
       .replace(/\^/g, "**")
-      .replace(/(\d+)!/g, (_, n) => factorial(parseInt(n)).toString())
+      .replace(/(\d+)!/g, (_, n) => factorial(parseInt(n)).toString());
     // eslint-disable-next-line no-new-func
-    const result = new Function("return " + sanitized)()
-    if (!isFinite(result)) return "Error"
-    const rounded = Math.round(result * 1e10) / 1e10
-    return rounded.toString()
+    const result = new Function("return " + sanitized)();
+    if (!isFinite(result)) return "Error";
+    const rounded = Math.round(result * 1e10) / 1e10;
+    return rounded.toString();
   } catch {
-    return "Error"
+    return "Error";
   }
-}
+};
 
 // ── button definitions ──────────────────────────────────────────────────────
 const BUTTONS = [
   // row 1 – memory / mode
-  { label: "Rad",  value: "RAD",   type: "mode"  },
-  { label: "(",    value: "(",     type: "paren" },
-  { label: ")",    value: ")",     type: "paren" },
-  { label: "%",    value: "/100",  type: "fn"    },
+  { label: "Rad", value: "RAD", type: "mode" },
+  { label: "(", value: "(", type: "paren" },
+  { label: ")", value: ")", type: "paren" },
+  { label: "%", value: "/100", type: "fn" },
 
   // row 2 – trig
-  { label: "sin",  value: "sin(",  type: "fn" },
-  { label: "cos",  value: "cos(",  type: "fn" },
-  { label: "tan",  value: "tan(",  type: "fn" },
-  { label: "xʸ",   value: "^",     type: "op" },
+  { label: "sin", value: "sin(", type: "fn" },
+  { label: "cos", value: "cos(", type: "fn" },
+  { label: "tan", value: "tan(", type: "fn" },
+  { label: "xʸ", value: "^", type: "op" },
 
   // row 3 – inverse trig
   { label: "sin⁻¹", value: "asin(", type: "fn" },
   { label: "cos⁻¹", value: "acos(", type: "fn" },
   { label: "tan⁻¹", value: "atan(", type: "fn" },
-  { label: "x²",    value: "^2",    type: "fn" },
+  { label: "x²", value: "^2", type: "fn" },
 
   // row 4 – log / sqrt
-  { label: "log",  value: "log(",  type: "fn" },
-  { label: "ln",   value: "ln(",   type: "fn" },
-  { label: "√",    value: "√(",    type: "fn" },
-  { label: "1/x",  value: "1/(",   type: "fn" },
+  { label: "log", value: "log(", type: "fn" },
+  { label: "ln", value: "ln(", type: "fn" },
+  { label: "√", value: "√(", type: "fn" },
+  { label: "1/x", value: "1/(", type: "fn" },
 
   // row 5 – constants
-  { label: "π",    value: "π",     type: "const" },
-  { label: "e",    value: "e",     type: "const" },
-  { label: "n!",   value: "!",     type: "fn"    },
-  { label: "abs",  value: "Math.abs(", type: "fn" },
+  { label: "π", value: "π", type: "const" },
+  { label: "e", value: "e", type: "const" },
+  { label: "n!", value: "!", type: "fn" },
+  { label: "abs", value: "Math.abs(", type: "fn" },
 
   // row 6 – digits + ops
-  { label: "7",    value: "7",  type: "num" },
-  { label: "8",    value: "8",  type: "num" },
-  { label: "9",    value: "9",  type: "num" },
-  { label: "÷",    value: "/",  type: "op"  },
+  { label: "7", value: "7", type: "num" },
+  { label: "8", value: "8", type: "num" },
+  { label: "9", value: "9", type: "num" },
+  { label: "÷", value: "/", type: "op" },
 
-  { label: "4",    value: "4",  type: "num" },
-  { label: "5",    value: "5",  type: "num" },
-  { label: "6",    value: "6",  type: "num" },
-  { label: "×",    value: "*",  type: "op"  },
+  { label: "4", value: "4", type: "num" },
+  { label: "5", value: "5", type: "num" },
+  { label: "6", value: "6", type: "num" },
+  { label: "×", value: "*", type: "op" },
 
-  { label: "1",    value: "1",  type: "num" },
-  { label: "2",    value: "2",  type: "num" },
-  { label: "3",    value: "3",  type: "num" },
-  { label: "−",    value: "-",  type: "op"  },
+  { label: "1", value: "1", type: "num" },
+  { label: "2", value: "2", type: "num" },
+  { label: "3", value: "3", type: "num" },
+  { label: "−", value: "-", type: "op" },
 
-  { label: "0",    value: "0",    type: "num" },
-  { label: ".",    value: ".",    type: "num" },
-  { label: "+/−",  value: "NEG",  type: "fn"  },
-  { label: "+",    value: "+",    type: "op"  },
-]
+  { label: "0", value: "0", type: "num" },
+  { label: ".", value: ".", type: "num" },
+  { label: "+/−", value: "NEG", type: "fn" },
+  { label: "+", value: "+", type: "op" },
+];
 
 // ── styles (minimal white theme) ──────────────────────────────────────────
 const styles = `
@@ -160,67 +164,85 @@ const styles = `
   .calc-history{ padding:8px 12px; min-height:28px; border-top:1px solid var(--border); display:flex; gap:8px; overflow-x:auto }
   .history-label{ font-size:10px; color:var(--muted); letter-spacing:1px; text-transform:uppercase }
   .history-item{ font-family:'Space Mono', monospace; font-size:12px; color:var(--muted); padding:4px 8px; border-radius:6px; background:var(--surface2); cursor:pointer }
-`
+`;
 
 // ── component ───────────────────────────────────────────────────────────────
 interface ScientificCalculatorProps {
-  trigger?: React.ReactNode
+  trigger?: React.ReactNode;
 }
 
-export default function ScientificCalculatorModal({ trigger }: ScientificCalculatorProps) {
-  const [expression, setExpression] = useState("")
-  const [result, setResult]         = useState("")
-  const [history, setHistory]       = useState([])
-  const [isDeg, setIsDeg]           = useState(false)
-  const [justEvaled, setJustEvaled] = useState(false)
+export default function ScientificCalculatorModal({
+  trigger,
+}: ScientificCalculatorProps) {
+  const [expression, setExpression] = useState("");
+  const [result, setResult] = useState("");
+  const [history, setHistory] = useState([]);
+  const [isDeg, setIsDeg] = useState(false);
+  const [justEvaled, setJustEvaled] = useState(false);
 
-  const appendToExpr = useCallback((val) => {
-    setResult("")
-    setJustEvaled(false)
-    setExpression(prev => {
-      if (justEvaled && /[\d.πe]/.test(val)) return val   // start fresh after =
-      return prev + val
-    })
-  }, [justEvaled])
+  const appendToExpr = useCallback(
+    (val) => {
+      setResult("");
+      setJustEvaled(false);
+      setExpression((prev) => {
+        if (justEvaled && /[\d.πe]/.test(val)) return val; // start fresh after =
+        return prev + val;
+      });
+    },
+    [justEvaled],
+  );
 
   const evaluate = useCallback(() => {
-    if (!expression) return
-    const ans = safeEval(expression)
+    if (!expression) return;
+    const ans = safeEval(expression);
     if (ans !== "Error") {
-      setHistory(h => [`${expression} = ${ans}`, ...h].slice(0, 6))
+      setHistory((h) => [`${expression} = ${ans}`, ...h].slice(0, 6));
     }
-    setResult(ans)
-    setJustEvaled(true)
-  }, [expression])
+    setResult(ans);
+    setJustEvaled(true);
+  }, [expression]);
 
-  const clearAll = () => { setExpression(""); setResult(""); setJustEvaled(false) }
-  const backspace = () => { setExpression(prev => prev.slice(0, -1)); setJustEvaled(false) }
+  const clearAll = () => {
+    setExpression("");
+    setResult("");
+    setJustEvaled(false);
+  };
+  const backspace = () => {
+    setExpression((prev) => prev.slice(0, -1));
+    setJustEvaled(false);
+  };
 
   // keyboard support
   useEffect(() => {
     const handler = (e) => {
-      if (e.key === "Enter" || e.key === "=") evaluate()
-      else if (e.key === "Escape" || e.key === "Delete") clearAll()
-      else if (e.key === "Backspace") backspace()
-      else if (/[\d\+\-\*\/\.\(\)\^%]/.test(e.key)) appendToExpr(e.key)
-    }
-    window.addEventListener("keydown", handler)
-    return () => window.removeEventListener("keydown", handler)
-  }, [evaluate, appendToExpr])
+      if (e.key === "Enter" || e.key === "=") evaluate();
+      else if (e.key === "Escape" || e.key === "Delete") clearAll();
+      else if (e.key === "Backspace") backspace();
+      else if (/[\d\+\-\*\/\.\(\)\^%]/.test(e.key)) appendToExpr(e.key);
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [evaluate, appendToExpr]);
 
   const handleBtn = (btn) => {
-    if (btn.value === "RAD")  { setIsDeg(d => !d); return }
-    if (btn.value === "NEG")  {
-      setExpression(prev => prev ? `-(${prev})` : "")
-      return
+    if (btn.value === "RAD") {
+      setIsDeg((d) => !d);
+      return;
     }
-    if (btn.value === "=") { evaluate(); return }
-    appendToExpr(btn.value)
-  }
+    if (btn.value === "NEG") {
+      setExpression((prev) => (prev ? `-(${prev})` : ""));
+      return;
+    }
+    if (btn.value === "=") {
+      evaluate();
+      return;
+    }
+    appendToExpr(btn.value);
+  };
 
-  const displayResult = result
-  const isError  = result === "Error"
-  const hasResult = result && !isError
+  const displayResult = result;
+  const isError = result === "Error";
+  const hasResult = result && !isError;
 
   return (
     <DialogPrimitive.Root>
@@ -245,71 +267,76 @@ export default function ScientificCalculatorModal({ trigger }: ScientificCalcula
           <style>{styles}</style>
           <div className="calc-root">
             <div className="calc-shell">
-
-          {/* display */}
-          <div className="calc-display">
-            <div className="display-mode">{isDeg ? "DEG" : "RAD"} · SCI</div>
-            <div className="display-expr">{expression || "0"}</div>
-            <div className={`display-result ${isError ? "error" : ""} ${hasResult ? "has-result" : ""}`}>
-              {displayResult || (expression ? "" : "0")}
-            </div>
-          </div>
-
-          {/* action row */}
-          <div className="calc-actions">
-            <button className="action-btn clear" onClick={clearAll}>
-              AC
-            </button>
-            <button className="action-btn" onClick={backspace}>
-              ⌫
-            </button>
-            <button className="action-btn" onClick={() => appendToExpr("(")}>
-              ( )
-            </button>
-            <button className="action-btn equals" onClick={evaluate}>
-              =
-            </button>
-          </div>
-
-          {/* button grid */}
-          <div className="calc-grid">
-            {BUTTONS.map((btn, i) => (
-              <button
-                key={i}
-                className={`calc-btn ${btn.type}`}
-                onClick={() => handleBtn(btn)}
-                title={btn.value}
-              >
-                {btn.label}
-              </button>
-            ))}
-          </div>
-
-          {/* history */}
-          {history.length > 0 && (
-            <div className="calc-history">
-              <span className="history-label">hist</span>
-              {history.map((h, i) => (
-                <span
-                  key={i}
-                  className="history-item"
-                  onClick={() => {
-                    const ans = h.split(" = ")[1]
-                    setExpression(ans)
-                    setResult("")
-                    setJustEvaled(false)
-                  }}
+              {/* display */}
+              <div className="calc-display">
+                <div className="display-mode">
+                  {isDeg ? "DEG" : "RAD"} · SCI
+                </div>
+                <div className="display-expr">{expression || "0"}</div>
+                <div
+                  className={`display-result ${isError ? "error" : ""} ${hasResult ? "has-result" : ""}`}
                 >
-                  {h}
-                </span>
-              ))}
-            </div>
-          )}
+                  {displayResult || (expression ? "" : "0")}
+                </div>
+              </div>
 
-        </div>
-      </div>
+              {/* action row */}
+              <div className="calc-actions">
+                <button className="action-btn clear" onClick={clearAll}>
+                  AC
+                </button>
+                <button className="action-btn" onClick={backspace}>
+                  ⌫
+                </button>
+                <button
+                  className="action-btn"
+                  onClick={() => appendToExpr("(")}
+                >
+                  ( )
+                </button>
+                <button className="action-btn equals" onClick={evaluate}>
+                  =
+                </button>
+              </div>
+
+              {/* button grid */}
+              <div className="calc-grid">
+                {BUTTONS.map((btn, i) => (
+                  <button
+                    key={i}
+                    className={`calc-btn ${btn.type}`}
+                    onClick={() => handleBtn(btn)}
+                    title={btn.value}
+                  >
+                    {btn.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* history */}
+              {history.length > 0 && (
+                <div className="calc-history">
+                  <span className="history-label">hist</span>
+                  {history.map((h, i) => (
+                    <span
+                      key={i}
+                      className="history-item"
+                      onClick={() => {
+                        const ans = h.split(" = ")[1];
+                        setExpression(ans);
+                        setResult("");
+                        setJustEvaled(false);
+                      }}
+                    >
+                      {h}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>
     </DialogPrimitive.Root>
-  )
+  );
 }
