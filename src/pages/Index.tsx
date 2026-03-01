@@ -40,15 +40,15 @@ const Index = () => {
 
       <main className="max-w-6xl mx-auto px-4 py-8">
         {/* Mock Test CTA */}
-        <div className="bg-gradient-to-r from-accent/20 to-primary/10 rounded-xl border border-accent/30 p-6 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="bg-gradient-to-br from-accent/15 via-accent/5 to-primary/10 rounded-2xl border border-accent/25 p-6 sm:p-8 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm hover:shadow-md transition-shadow">
           <div>
-            <h2 className="text-xl font-bold text-foreground mb-1">📝 TCS NQT Full Mock Test</h2>
-            <p className="text-sm text-muted-foreground">56 questions • 60 minutes </p>
+            <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-1.5">📝 TCS NQT Full Mock Test</h2>
+            <p className="text-sm text-muted-foreground">56 questions • 60 minutes</p>
             <p className="text-xs text-muted-foreground mt-1">26 Numerical Ability + 30 Reasoning Ability</p>
           </div>
           <button
             onClick={() => navigate('/mock-test')}
-            className="px-6 py-3 rounded-xl bg-accent text-accent-foreground font-bold text-sm hover:opacity-90 transition-opacity shrink-0 shadow-lg"
+            className="px-8 py-3.5 rounded-xl bg-accent text-accent-foreground font-bold text-sm hover:brightness-110 transition-all shrink-0 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
           >
             Start Mock Test →
           </button>
