@@ -20,18 +20,18 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-primary text-primary-foreground py-6 px-4 shadow-lg">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
+      <header className="bg-gradient-to-r from-primary via-primary/95 to-accent/80 text-primary-foreground py-8 px-4 shadow-xl relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,hsl(var(--accent)/0.15),transparent_50%)]" />
+        <div className="max-w-6xl mx-auto flex items-center justify-between relative z-10">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">TCS NQT Practice Platform</h1>
-            <p className="mt-1 text-primary-foreground/70 text-sm">Master aptitude & reasoning with timed practice tests</p>
+            <h1 className="font-secondary text-2xl sm:text-3xl font-bold tracking-tight">TCS NQT Practice Platform</h1>
+            <p className="mt-1.5 text-primary-foreground/70 text-sm">Master aptitude & reasoning with timed practice tests</p>
           </div>
-
-          {/* calculator trigger button placed on right side of header */}
           <ScientificCalculatorModal
             trigger={
-              <button className="p-2 rounded-full bg-accent/10 hover:bg-accent/20 transition-colors">
-                <FaCalculator className="w-5 h-5" />
+              <button className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 backdrop-blur-sm text-primary-foreground text-sm font-semibold transition-colors border border-primary-foreground/10">
+                <FaCalculator className="w-4 h-4" />
+                <span className="hidden sm:inline">Calculator</span>
               </button>
             }
           />
