@@ -186,7 +186,7 @@ const Index = () => {
         </section>
       </main>
 
-      <footer className="border-t border-border mt-8 py-6 px-4">
+      <footer className="border-t border-border mt-12 py-8 px-4 bg-card/50">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
           <span>Practice Platform — Not affiliated with TCS</span>
           <a

@@ -127,10 +127,10 @@ const ResultPage = () => {
 
       <main className="max-w-4xl mx-auto px-4 py-8">
         {/* Score Card */}
-        <div className="bg-card rounded-xl border border-border p-6 mb-6">
+        <div className="bg-card rounded-2xl border border-border p-6 sm:p-8 mb-6 shadow-sm">
           <div className="text-center mb-6">
-            <div className={`inline-flex items-center justify-center w-24 h-24 rounded-full text-3xl font-bold font-mono-timer border-4 ${
-              percentage >= 70 ? 'border-success text-success' : percentage >= 40 ? 'border-warning text-warning' : 'border-destructive text-destructive'
+            <div className={`inline-flex items-center justify-center w-28 h-28 rounded-full text-4xl font-bold font-mono-timer border-4 shadow-lg ${
+              percentage >= 70 ? 'border-success text-success shadow-success/20' : percentage >= 40 ? 'border-warning text-warning shadow-warning/20' : 'border-destructive text-destructive shadow-destructive/20'
             }`}>
               {percentage}%
             </div>
