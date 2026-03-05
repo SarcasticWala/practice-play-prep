@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import {
   ArrowLeft,
   Bookmark,
@@ -15,15 +15,51 @@ import { topics } from "@/data/topics";
 import { Question, UserAnswer } from "@/types/quiz";
 import { useBookmarks } from "@/hooks/use-bookmarks";
 
+function shuffleArray<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 const TestPage = () => {
   const { topicId } = useParams<{ topicId: string }>();
   const navigate = useNavigate();
-  const topic = topics.find((t) => t.id === topicId);
+  const location = useLocation();
   const { isBookmarked, toggleBookmark } = useBookmarks();
 
-  const [questions] = useState<Question[]>(() =>
-    getQuestions(topicId || "", 50),
-  );
+  const isMixed = topicId === "mixed";
+  const selectedTopicIds: string[] = isMixed
+    ? (location.state as any)?.selectedTopicIds || []
+    : [];
+
+  const topic = isMixed ? null : topics.find((t) => t.id === topicId);
+
+  const testTitle = useMemo(() => {
+    if (!isMixed) return topic?.name || "Test";
+    if (selectedTopicIds.length <= 3) {
+      return selectedTopicIds
+        .map((id) => topics.find((t) => t.id === id)?.name || id)
+        .join(", ");
+    }
+    return `Mixed Practice (${selectedTopicIds.length} topics)`;
+  }, [isMixed, selectedTopicIds, topic]);
+
+  const [questions] = useState<Question[]>(() => {
+    if (!isMixed) return getQuestions(topicId || "", 50);
+
+    // For mixed: pull questions evenly from each selected topic, then shuffle
+    const perTopic = Math.max(3, Math.floor(50 / selectedTopicIds.length));
+    const allQs: Question[] = [];
+    selectedTopicIds.forEach((tid) => {
+      const tqs = getQuestions(tid, perTopic);
+      allQs.push(...tqs);
+    });
+    return shuffleArray(allQs).slice(0, Math.max(50, allQs.length));
+  });
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number | null>>({});
   const [revealed, setRevealed] = useState<Record<string, boolean>>({});
@@ -58,18 +94,23 @@ const TestPage = () => {
         timeTaken: questions.length * 60 - timeLeft,
         answers: userAnswers,
         questions,
-        topicName: topic?.name || "Test",
+        topicName: testTitle,
         topicId: topicId || "",
       },
     });
-  }, [submitted, questions, answers, timeLeft, navigate, topic, topicId]);
+  }, [submitted, questions, answers, timeLeft, navigate, testTitle, topicId]);
+
+  useEffect(() => {
+    if (isMixed && selectedTopicIds.length === 0) {
+      navigate("/");
+    }
+  }, [isMixed, selectedTopicIds, navigate]);
 
   useEffect(() => {
     if (timeLeft <= 0) {
       handleSubmit();
       return;
     }
-
     const timer = setInterval(() => setTimeLeft((t) => t - 1), 1000);
     return () => clearInterval(timer);
   }, [timeLeft, handleSubmit]);
@@ -82,7 +123,6 @@ const TestPage = () => {
           "You have an ongoing test. Are you sure you want to leave?";
       }
     };
-
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, [submitted]);
@@ -139,7 +179,7 @@ const TestPage = () => {
             </button>
             <div className="min-w-0 px-3 py-2 sm:px-4 sm:py-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20">
               <h1 className="font-secondary font-bold text-base sm:text-lg truncate">
-                {topic?.name || "Test"}
+                {testTitle}
               </h1>
               <p className="text-xs text-primary-foreground/80">
                 Q {currentIndex + 1} of {questions.length}
@@ -206,7 +246,7 @@ const TestPage = () => {
             </p>
             <button
               onClick={() =>
-                toggleBookmark(currentQ, topicId || "", topic?.name || "")
+                toggleBookmark(currentQ, topicId || "", testTitle)
               }
               className={`inline-flex h-9 w-9 items-center justify-center rounded-full border transition-all hover:scale-105 ${
                 bookmarked
