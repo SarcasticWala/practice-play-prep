@@ -6,6 +6,7 @@ import { useBookmarks } from "@/hooks/use-bookmarks";
 
 import ScientificCalculatorModal from "@/components/ScientificCalculator";
 import { FaCalculator } from "react-icons/fa";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -31,14 +32,17 @@ const Index = () => {
               Master aptitude & reasoning with timed practice tests
             </p>
           </div>
-          <ScientificCalculatorModal
-            trigger={
-              <button className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 backdrop-blur-sm text-primary-foreground text-sm font-semibold transition-colors border border-primary-foreground/10">
-                <FaCalculator className="w-4 h-4" />
-                <span className="hidden sm:inline">Calculator</span>
-              </button>
-            }
-          />
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <ScientificCalculatorModal
+              trigger={
+                <button className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 backdrop-blur-sm text-primary-foreground text-sm font-semibold transition-colors border border-primary-foreground/10">
+                  <FaCalculator className="w-4 h-4" />
+                  <span className="hidden sm:inline">Calculator</span>
+                </button>
+              }
+            />
+          </div>
         </div>
       </header>
 

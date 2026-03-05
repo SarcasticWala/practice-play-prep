@@ -12,6 +12,7 @@ import { getQuestions } from "@/data/questions";
 import { Question, UserAnswer } from "@/types/quiz";
 import { useBookmarks } from "@/hooks/use-bookmarks";
 import ScientificCalculatorModal from "@/components/ScientificCalculator";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export interface TaggedQuestion extends Question {
   sourceTopic: string;
@@ -234,6 +235,7 @@ const MockTestPage = () => {
             </div>
           </div>
           <div className="flex items-center gap-2 self-end sm:self-auto">
+            <ThemeToggle />
             <ScientificCalculatorModal
               trigger={
                 <button className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground text-sm font-semibold transition-colors">

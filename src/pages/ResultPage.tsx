@@ -12,6 +12,7 @@ import {
   XCircle,
   MinusCircle,
 } from "lucide-react";
+import ThemeToggle from "@/components/ThemeToggle";
 
 interface ResultState {
   totalQuestions: number;
@@ -171,11 +172,14 @@ const ResultPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <header className="bg-gradient-to-r from-primary via-primary/95 to-accent/80 text-primary-foreground py-6 px-4 shadow-lg">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="font-secondary text-2xl font-bold">Test Results</h1>
-          <p className="text-sm text-primary-foreground/60 mt-1">
-            {result.topicName}
-          </p>
+        <div className="max-w-4xl mx-auto flex items-center justify-between">
+          <div>
+            <h1 className="font-secondary text-2xl font-bold">Test Results</h1>
+            <p className="text-sm text-primary-foreground/60 mt-1">
+              {result.topicName}
+            </p>
+          </div>
+          <ThemeToggle />
         </div>
       </header>
 
