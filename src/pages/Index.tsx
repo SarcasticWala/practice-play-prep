@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { topics } from "@/data/topics";
 import { useProgress } from "@/hooks/use-progress";
 import { useBookmarks } from "@/hooks/use-bookmarks";
+import { CheckSquare, Square, Shuffle } from "lucide-react";
 
 import ScientificCalculatorModal from "@/components/ScientificCalculator";
 import { FaCalculator } from "react-icons/fa";
@@ -13,10 +14,91 @@ const Index = () => {
   const { progress, clearProgress } = useProgress();
   const { bookmarks, clearBookmarks } = useBookmarks();
   const [showBookmarks, setShowBookmarks] = useState(false);
+  const [multiSelect, setMultiSelect] = useState(false);
+  const [selectedTopics, setSelectedTopics] = useState<Set<string>>(new Set());
   const quantTopics = topics.filter((t) => t.category === "quantitative");
   const reasonTopics = topics.filter((t) => t.category === "reasoning");
 
   const completedCount = Object.keys(progress).length;
+
+  const toggleTopic = (id: string) => {
+    setSelectedTopics((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const selectAll = (category: "quantitative" | "reasoning") => {
+    const catTopics = topics.filter((t) => t.category === category);
+    const allSelected = catTopics.every((t) => selectedTopics.has(t.id));
+    setSelectedTopics((prev) => {
+      const next = new Set(prev);
+      catTopics.forEach((t) => {
+        if (allSelected) next.delete(t.id);
+        else next.add(t.id);
+      });
+      return next;
+    });
+  };
+
+  const startMixedTest = () => {
+    if (selectedTopics.size === 0) return;
+    navigate("/test/mixed", {
+      state: { selectedTopicIds: Array.from(selectedTopics) },
+    });
+  };
+
+  const TopicCard = ({ topic }: { topic: (typeof topics)[0] }) => {
+    const tp = progress[topic.id];
+    const isSelected = selectedTopics.has(topic.id);
+
+    return (
+      <button
+        key={topic.id}
+        onClick={() => {
+          if (multiSelect) {
+            toggleTopic(topic.id);
+          } else {
+            navigate(`/test/${topic.id}`);
+          }
+        }}
+        className={`topic-card-hover bg-card border rounded-2xl p-4 text-left group relative shadow-sm hover:shadow-md transition-all ${
+          multiSelect && isSelected
+            ? "border-accent ring-2 ring-accent/30 bg-accent/5"
+            : "border-border hover:border-accent/60"
+        }`}
+      >
+        {multiSelect && (
+          <span className="absolute top-2 left-2 text-accent">
+            {isSelected ? <CheckSquare size={18} /> : <Square size={18} className="text-muted-foreground" />}
+          </span>
+        )}
+        {tp && (
+          <span
+            className={`absolute top-2 right-2 text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
+              tp.bestPercentage >= 70
+                ? "bg-success/20 text-success"
+                : tp.bestPercentage >= 40
+                  ? "bg-accent/20 text-accent"
+                  : "bg-destructive/20 text-destructive"
+            }`}
+          >
+            {tp.bestPercentage}%
+          </span>
+        )}
+        <span className={`text-2xl block mb-2 ${multiSelect ? "mt-4" : ""}`}>{topic.icon}</span>
+        <span className="text-sm font-semibold text-card-foreground group-hover:text-accent transition-colors leading-tight block">
+          {topic.name}
+        </span>
+        <span className="text-xs text-muted-foreground mt-1 block">
+          {topic.questionCount} Qs
+          {tp ? ` | ${tp.attempts} tries` : ""}
+        </span>
+      </button>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -66,6 +148,40 @@ const Index = () => {
           >
             Start Mock Test {"->"}
           </button>
+        </div>
+
+        {/* Multi-Select Toggle + Start Button */}
+        <div className="flex flex-wrap items-center gap-3 mb-6">
+          <button
+            onClick={() => {
+              setMultiSelect((v) => !v);
+              if (multiSelect) setSelectedTopics(new Set());
+            }}
+            className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all border ${
+              multiSelect
+                ? "bg-accent text-accent-foreground border-accent shadow-md"
+                : "bg-card text-foreground border-border hover:border-accent/60"
+            }`}
+          >
+            <Shuffle size={16} />
+            {multiSelect ? "Cancel Multi-Select" : "Mix Topics"}
+          </button>
+
+          {multiSelect && (
+            <>
+              <span className="text-sm text-muted-foreground">
+                {selectedTopics.size} topic{selectedTopics.size !== 1 ? "s" : ""} selected
+              </span>
+              <button
+                onClick={startMixedTest}
+                disabled={selectedTopics.size === 0}
+                className="ml-auto px-6 py-2.5 rounded-xl bg-accent text-accent-foreground font-bold text-sm hover:opacity-90 transition-opacity disabled:opacity-40 shadow-lg inline-flex items-center gap-2"
+              >
+                <Shuffle size={16} />
+                Start Mixed Practice ({selectedTopics.size})
+              </button>
+            </>
+          )}
         </div>
 
         {/* Progress Summary */}
@@ -154,85 +270,47 @@ const Index = () => {
 
         {/* Quantitative Section */}
         <section className="mb-10">
-          <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
-            <span className="w-1 h-6 bg-accent rounded-full inline-block" />
-            Quantitative Aptitude
-          </h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
+              <span className="w-1 h-6 bg-accent rounded-full inline-block" />
+              Quantitative Aptitude
+            </h2>
+            {multiSelect && (
+              <button
+                onClick={() => selectAll("quantitative")}
+                className="text-xs font-semibold text-accent hover:underline"
+              >
+                {quantTopics.every((t) => selectedTopics.has(t.id)) ? "Deselect All" : "Select All"}
+              </button>
+            )}
+          </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-            {quantTopics.map((topic) => {
-              const tp = progress[topic.id];
-              return (
-                <button
-                  key={topic.id}
-                  onClick={() => navigate(`/test/${topic.id}`)}
-                  className="topic-card-hover bg-card border border-border rounded-2xl p-4 text-left hover:border-accent/60 group relative shadow-sm hover:shadow-md"
-                >
-                  {tp && (
-                    <span
-                      className={`absolute top-2 right-2 text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
-                        tp.bestPercentage >= 70
-                          ? "bg-success/20 text-success"
-                          : tp.bestPercentage >= 40
-                            ? "bg-accent/20 text-accent"
-                            : "bg-destructive/20 text-destructive"
-                      }`}
-                    >
-                      {tp.bestPercentage}%
-                    </span>
-                  )}
-                  <span className="text-2xl block mb-2">{topic.icon}</span>
-                  <span className="text-sm font-semibold text-card-foreground group-hover:text-accent transition-colors leading-tight block">
-                    {topic.name}
-                  </span>
-                  <span className="text-xs text-muted-foreground mt-1 block">
-                    {topic.questionCount} Qs
-                    {tp ? ` | ${tp.attempts} tries` : ""}
-                  </span>
-                </button>
-              );
-            })}
+            {quantTopics.map((topic) => (
+              <TopicCard key={topic.id} topic={topic} />
+            ))}
           </div>
         </section>
 
         {/* Reasoning Section */}
         <section>
-          <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
-            <span className="w-1 h-6 bg-accent rounded-full inline-block" />
-            Logical Reasoning
-          </h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
+              <span className="w-1 h-6 bg-accent rounded-full inline-block" />
+              Logical Reasoning
+            </h2>
+            {multiSelect && (
+              <button
+                onClick={() => selectAll("reasoning")}
+                className="text-xs font-semibold text-accent hover:underline"
+              >
+                {reasonTopics.every((t) => selectedTopics.has(t.id)) ? "Deselect All" : "Select All"}
+              </button>
+            )}
+          </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-            {reasonTopics.map((topic) => {
-              const tp = progress[topic.id];
-              return (
-                <button
-                  key={topic.id}
-                  onClick={() => navigate(`/test/${topic.id}`)}
-                  className="topic-card-hover bg-card border border-border rounded-2xl p-4 text-left hover:border-accent/60 group relative shadow-sm hover:shadow-md"
-                >
-                  {tp && (
-                    <span
-                      className={`absolute top-2 right-2 text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
-                        tp.bestPercentage >= 70
-                          ? "bg-success/20 text-success"
-                          : tp.bestPercentage >= 40
-                            ? "bg-accent/20 text-accent"
-                            : "bg-destructive/20 text-destructive"
-                      }`}
-                    >
-                      {tp.bestPercentage}%
-                    </span>
-                  )}
-                  <span className="text-2xl block mb-2">{topic.icon}</span>
-                  <span className="text-sm font-semibold text-card-foreground group-hover:text-accent transition-colors leading-tight block">
-                    {topic.name}
-                  </span>
-                  <span className="text-xs text-muted-foreground mt-1 block">
-                    {topic.questionCount} Qs
-                    {tp ? ` | ${tp.attempts} tries` : ""}
-                  </span>
-                </button>
-              );
-            })}
+            {reasonTopics.map((topic) => (
+              <TopicCard key={topic.id} topic={topic} />
+            ))}
           </div>
         </section>
       </main>
