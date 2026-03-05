@@ -12,6 +12,7 @@ import {
   XCircle,
   MinusCircle,
 } from "lucide-react";
+import ThemeToggle from "@/components/ThemeToggle";
 
 interface ResultState {
   totalQuestions: number;
