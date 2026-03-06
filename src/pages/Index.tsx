@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { topics } from "@/data/topics";
 import { useProgress } from "@/hooks/use-progress";
 import { useBookmarks } from "@/hooks/use-bookmarks";
-import { CheckSquare, Square, Shuffle } from "lucide-react";
+import { CheckSquare, Square, Shuffle, History } from "lucide-react";
 
 import ScientificCalculatorModal from "@/components/ScientificCalculator";
 import { FaCalculator } from "react-icons/fa";
@@ -207,6 +207,13 @@ const Index = () => {
             </div>
           </div>
           <div className="flex gap-2">
+            <button
+              onClick={() => navigate("/history")}
+              className="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity inline-flex items-center gap-1.5"
+            >
+              <History size={14} />
+              History
+            </button>
             <button
               onClick={() => setShowBookmarks(!showBookmarks)}
               className="px-4 py-2 rounded-lg bg-accent text-accent-foreground text-sm font-semibold hover:opacity-90 transition-opacity"

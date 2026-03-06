@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
 import { Question, UserAnswer } from "@/types/quiz";
 import { useProgress } from "@/hooks/use-progress";
+import { useTestHistory } from "@/hooks/use-test-history";
 import { TaggedQuestion } from "@/pages/MockTestPage";
 import {
   BarChart3,
@@ -46,10 +47,25 @@ const ResultPage = () => {
   const [showSolutions, setShowSolutions] = useState(false);
   const [showAnalytics, setShowAnalytics] = useState(false);
   const { saveResult } = useProgress();
+  const { saveAttempt } = useTestHistory();
 
   useEffect(() => {
     if (result?.topicId) {
       saveResult(result.topicId, result.correct, result.totalQuestions);
+    }
+    if (result) {
+      saveAttempt({
+        topicName: result.topicName,
+        topicId: result.topicId,
+        isMockTest: result.isMockTest || false,
+        totalQuestions: result.totalQuestions,
+        attempted: result.attempted,
+        correct: result.correct,
+        incorrect: result.incorrect,
+        unattempted: result.unattempted,
+        percentage: Math.round((result.correct / result.totalQuestions) * 100),
+        timeTaken: result.timeTaken,
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
