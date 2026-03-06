@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import TestPage from "./pages/TestPage";
 import MockTestPage from "./pages/MockTestPage";
 import ResultPage from "./pages/ResultPage";
+import HistoryPage from "./pages/HistoryPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => (
           <Route path="/test/:topicId" element={<TestPage />} />
           <Route path="/mock-test" element={<MockTestPage />} />
           <Route path="/result" element={<ResultPage />} />
+          <Route path="/history" element={<HistoryPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
