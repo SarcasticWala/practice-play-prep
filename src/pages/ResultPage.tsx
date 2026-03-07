@@ -48,7 +48,8 @@ const ResultPage = () => {
   const [showSolutions, setShowSolutions] = useState(false);
   const [showAnalytics, setShowAnalytics] = useState(false);
   const { saveResult } = useProgress();
-  const { saveAttempt } = useTestHistory();
+  const { saveAttempt, getWeakTopicIds } = useTestHistory();
+  const weakTopicIds = getWeakTopicIds();
 
   useEffect(() => {
     if (result?.topicId) {
@@ -358,7 +359,19 @@ const ResultPage = () => {
               {showAnalytics ? "Hide" : "View"} Analytics
             </button>
           )}
-        </div>
+          {weakTopicIds.length > 0 && (
+            <button
+              onClick={() =>
+                navigate("/test/mixed", {
+                  state: { selectedTopicIds: weakTopicIds },
+                })
+              }
+              className="flex-1 min-w-[120px] px-4 py-3 bg-warning text-warning-foreground rounded-lg font-semibold hover:opacity-90 flex items-center justify-center gap-2"
+            >
+              <Zap size={16} />
+              Practice Weak Topics ({weakTopicIds.length})
+            </button>
+          )}
 
         {/* Analytics Dashboard */}
         {showAnalytics && result.isMockTest && topicStats.length > 0 && (
