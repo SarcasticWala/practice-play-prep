@@ -50,5 +50,18 @@ export function useTestHistory() {
     setHistory([]);
   }, []);
 
-  return { history, saveAttempt, clearHistory };
+  /** Returns topic IDs where average accuracy < 50% across all attempts */
+  const getWeakTopicIds = useCallback((): string[] => {
+    const topicAgg: Record<string, { correct: number; attempted: number }> = {};
+    history.forEach((h) => {
+      if (!topicAgg[h.topicId]) topicAgg[h.topicId] = { correct: 0, attempted: 0 };
+      topicAgg[h.topicId].correct += h.correct;
+      topicAgg[h.topicId].attempted += h.attempted;
+    });
+    return Object.entries(topicAgg)
+      .filter(([, v]) => v.attempted > 0 && (v.correct / v.attempted) * 100 < 50)
+      .map(([id]) => id);
+  }, [history]);
+
+  return { history, saveAttempt, clearHistory, getWeakTopicIds };
 }

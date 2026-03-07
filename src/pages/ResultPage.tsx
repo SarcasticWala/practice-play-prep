@@ -12,6 +12,7 @@ import {
   CheckCircle2,
   XCircle,
   MinusCircle,
+  Zap,
 } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
 
