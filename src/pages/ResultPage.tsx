@@ -372,6 +372,7 @@ const ResultPage = () => {
               Practice Weak Topics ({weakTopicIds.length})
             </button>
           )}
+        </div>
 
         {/* Analytics Dashboard */}
         {showAnalytics && result.isMockTest && topicStats.length > 0 && (
