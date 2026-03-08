@@ -53,14 +53,13 @@ const TestPage = () => {
   const [questions] = useState<Question[]>(() => {
     if (!isMixed) return getQuestions(topicId || "", 50);
 
-    // For mixed: pull shuffled questions from each selected topic, then shuffle the combined set
-    const perTopic = Math.max(3, Math.ceil(50 / selectedTopicIds.length));
+    const totalCount = mixedQuestionCount;
+    const perTopic = Math.max(3, Math.ceil(totalCount / selectedTopicIds.length));
     const allQs: Question[] = [];
     selectedTopicIds.forEach((tid) => {
-      const tqs = getQuestions(tid, perTopic); // getQuestions now returns randomly shuffled questions
-      allQs.push(...tqs);
+      allQs.push(...getQuestions(tid, perTopic));
     });
-    return shuffleArray(allQs).slice(0, Math.max(50, allQs.length));
+    return shuffleArray(allQs).slice(0, totalCount);
   });
 
   const [currentIndex, setCurrentIndex] = useState(0);
