@@ -28,8 +28,15 @@ const Index = () => {
   const reasonTopics = useMemo(() => topics.filter((t) => t.category === "reasoning"), []);
   const completedCount = useMemo(() => Object.keys(progress).length, [progress]);
 
-  // Show daily challenge on load
+  // Show daily challenge on load only if not yet answered today
   useEffect(() => {
+    const raw = localStorage.getItem("tcs-nqt-daily-challenge");
+    if (raw) {
+      try {
+        const parsed = JSON.parse(raw);
+        if (parsed.date === new Date().toISOString().split("T")[0] && parsed.answered) return;
+      } catch {}
+    }
     const timer = setTimeout(() => setShowDailyChallenge(true), 600);
     return () => clearTimeout(timer);
   }, []);

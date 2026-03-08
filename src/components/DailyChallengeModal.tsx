@@ -21,9 +21,9 @@ export default function DailyChallengeModal({
   const { question, topicName, answered, selectedOption, correct, answer } =
     useDailyChallenge();
   const [timeLeft, setTimeLeft] = useState(30);
-  const [selected, setSelected] = useState<number | null>(selectedOption);
-  const [submitted, setSubmitted] = useState(answered);
-  const [isCorrect, setIsCorrect] = useState(correct);
+  const [selected, setSelected] = useState<number | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
   useEffect(() => {
     if (!open || submitted) return;
