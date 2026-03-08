@@ -37,6 +37,9 @@ const TestPage = () => {
   const mixedQuestionCount: number = isMixed
     ? (location.state as any)?.questionCount || 30
     : 50;
+  const mixedDifficulty: Difficulty | undefined = isMixed
+    ? (location.state as any)?.difficulty
+    : undefined;
 
   const topic = isMixed ? null : topics.find((t) => t.id === topicId);
 
