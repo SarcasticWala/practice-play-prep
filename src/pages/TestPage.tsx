@@ -60,7 +60,7 @@ const TestPage = () => {
     const perTopic = Math.max(3, Math.ceil(totalCount / selectedTopicIds.length));
     const allQs: Question[] = [];
     selectedTopicIds.forEach((tid) => {
-      allQs.push(...getQuestions(tid, perTopic));
+      allQs.push(...getQuestions(tid, perTopic, mixedDifficulty));
     });
     return shuffleArray(allQs).slice(0, totalCount);
   });
