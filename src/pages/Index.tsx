@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { topics } from "@/data/topics";
 import { useProgress } from "@/hooks/use-progress";
@@ -24,9 +24,9 @@ const Index = () => {
   const [difficulty, setDifficulty] = useState<Difficulty | "all">("all");
   const [showDailyChallenge, setShowDailyChallenge] = useState(false);
 
-  const quantTopics = topics.filter((t) => t.category === "quantitative");
-  const reasonTopics = topics.filter((t) => t.category === "reasoning");
-  const completedCount = Object.keys(progress).length;
+  const quantTopics = useMemo(() => topics.filter((t) => t.category === "quantitative"), []);
+  const reasonTopics = useMemo(() => topics.filter((t) => t.category === "reasoning"), []);
+  const completedCount = useMemo(() => Object.keys(progress).length, [progress]);
 
   // Show daily challenge on load
   useEffect(() => {
@@ -34,14 +34,14 @@ const Index = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const toggleTopic = (id: string) => {
+  const toggleTopic = useCallback((id: string) => {
     setSelectedTopics((prev) => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
       else next.add(id);
       return next;
     });
-  };
+  }, []);
 
   const selectAll = (category: "quantitative" | "reasoning") => {
     const catTopics = topics.filter((t) => t.category === category);
