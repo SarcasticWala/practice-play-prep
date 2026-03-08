@@ -16,6 +16,7 @@ const Index = () => {
   const [showBookmarks, setShowBookmarks] = useState(false);
   const [multiSelect, setMultiSelect] = useState(false);
   const [selectedTopics, setSelectedTopics] = useState<Set<string>>(new Set());
+  const [questionCount, setQuestionCount] = useState(30);
   const quantTopics = topics.filter((t) => t.category === "quantitative");
   const reasonTopics = topics.filter((t) => t.category === "reasoning");
 
