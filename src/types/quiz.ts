@@ -1,9 +1,12 @@
+export type Difficulty = "easy" | "medium" | "hard";
+
 export interface Question {
   id: string;
   question: string;
   options: string[];
   correctAnswer: number; // index of correct option
   explanation: string;
+  difficulty?: Difficulty;
 }
 
 export interface Topic {
