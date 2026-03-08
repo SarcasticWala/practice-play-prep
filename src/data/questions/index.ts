@@ -1,4 +1,4 @@
-import { Question } from "@/types/quiz";
+import { Question, Difficulty } from "@/types/quiz";
 import { percentagesQuestions } from "./percentages";
 import { numberSystemQuestions } from "./number-system";
 import { profitLossQuestions } from "./profit-loss";
