@@ -12,7 +12,7 @@ import { FaCalculator } from "react-icons/fa";
 import ThemeToggle from "@/components/ThemeToggle";
 import { getQuestions } from "@/data/questions";
 import { topics } from "@/data/topics";
-import { Question, UserAnswer } from "@/types/quiz";
+import { Question, UserAnswer, Difficulty } from "@/types/quiz";
 import { useBookmarks } from "@/hooks/use-bookmarks";
 
 function shuffleArray<T>(arr: T[]): T[] {
