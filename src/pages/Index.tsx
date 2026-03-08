@@ -170,16 +170,18 @@ const Index = () => {
 
           {multiSelect && (
             <>
-              <span className="text-sm text-muted-foreground">
+              <span className="text-sm text-muted-foreground font-medium">
                 {selectedTopics.size} topic{selectedTopics.size !== 1 ? "s" : ""} selected
               </span>
+              <span className="text-muted-foreground/40">•</span>
               <select
                 value={questionCount}
                 onChange={(e) => setQuestionCount(Number(e.target.value))}
-                className="px-3 py-2 rounded-xl text-sm font-semibold bg-card text-foreground border border-border focus:outline-none focus:ring-2 focus:ring-ring"
+                className="px-3 py-2.5 rounded-xl text-sm font-semibold bg-card text-foreground border border-border cursor-pointer hover:border-accent/60 focus:outline-none focus:ring-2 focus:ring-ring transition-colors appearance-none pr-8"
+                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0.5rem center' }}
               >
                 {[10, 20, 30, 50].map((n) => (
-                  <option key={n} value={n}>{n} Questions</option>
+                  <option key={n} value={n}>{n} Qs</option>
                 ))}
               </select>
               <button
