@@ -47,7 +47,7 @@ const Index = () => {
   const startMixedTest = () => {
     if (selectedTopics.size === 0) return;
     navigate("/test/mixed", {
-      state: { selectedTopicIds: Array.from(selectedTopics) },
+      state: { selectedTopicIds: Array.from(selectedTopics), questionCount },
     });
   };
 
