@@ -1,26 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { topics } from "@/data/topics";
 import { useProgress } from "@/hooks/use-progress";
 import { useBookmarks } from "@/hooks/use-bookmarks";
-import { CheckSquare, Square, Shuffle, History } from "lucide-react";
+import { useStreak } from "@/hooks/use-streak";
+import { CheckSquare, Square, Shuffle, History, Flame } from "lucide-react";
 
 import ScientificCalculatorModal from "@/components/ScientificCalculator";
+import DailyChallengeModal from "@/components/DailyChallengeModal";
 import { FaCalculator } from "react-icons/fa";
 import ThemeToggle from "@/components/ThemeToggle";
+import type { Difficulty } from "@/types/quiz";
 
 const Index = () => {
   const navigate = useNavigate();
   const { progress, clearProgress } = useProgress();
   const { bookmarks, clearBookmarks } = useBookmarks();
+  const { currentStreak, longestStreak, recordActivity } = useStreak();
   const [showBookmarks, setShowBookmarks] = useState(false);
   const [multiSelect, setMultiSelect] = useState(false);
   const [selectedTopics, setSelectedTopics] = useState<Set<string>>(new Set());
   const [questionCount, setQuestionCount] = useState(30);
+  const [difficulty, setDifficulty] = useState<Difficulty | "all">("all");
+  const [showDailyChallenge, setShowDailyChallenge] = useState(false);
+
   const quantTopics = topics.filter((t) => t.category === "quantitative");
   const reasonTopics = topics.filter((t) => t.category === "reasoning");
-
   const completedCount = Object.keys(progress).length;
+
+  // Show daily challenge on load
+  useEffect(() => {
+    const timer = setTimeout(() => setShowDailyChallenge(true), 600);
+    return () => clearTimeout(timer);
+  }, []);
 
   const toggleTopic = (id: string) => {
     setSelectedTopics((prev) => {
@@ -47,7 +59,11 @@ const Index = () => {
   const startMixedTest = () => {
     if (selectedTopics.size === 0) return;
     navigate("/test/mixed", {
-      state: { selectedTopicIds: Array.from(selectedTopics), questionCount },
+      state: {
+        selectedTopicIds: Array.from(selectedTopics),
+        questionCount,
+        difficulty: difficulty === "all" ? undefined : difficulty,
+      },
     });
   };
 
@@ -103,6 +119,15 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Daily Challenge Modal */}
+      <DailyChallengeModal
+        open={showDailyChallenge}
+        onClose={() => setShowDailyChallenge(false)}
+        currentStreak={currentStreak}
+        longestStreak={longestStreak}
+        onCorrectAnswer={recordActivity}
+      />
+
       {/* Header */}
       <header className="bg-gradient-to-r from-primary via-primary/95 to-accent/80 text-primary-foreground py-8 px-4 shadow-xl relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,hsl(var(--accent)/0.15),transparent_50%)]" />
@@ -116,6 +141,15 @@ const Index = () => {
             </p>
           </div>
           <div className="flex items-center gap-2">
+            {/* Streak Badge */}
+            <button
+              onClick={() => setShowDailyChallenge(true)}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 backdrop-blur-sm text-primary-foreground text-sm font-semibold transition-colors border border-primary-foreground/10"
+              title={`Current streak: ${currentStreak} days | Best: ${longestStreak} days`}
+            >
+              <Flame className="w-4 h-4 text-warning" />
+              <span className="font-mono-timer">{currentStreak}</span>
+            </button>
             <ThemeToggle />
             <ScientificCalculatorModal
               trigger={
@@ -170,7 +204,7 @@ const Index = () => {
 
           {multiSelect && (
             <>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-sm text-muted-foreground font-medium">
                   {selectedTopics.size} topic{selectedTopics.size !== 1 ? "s" : ""} selected
                 </span>
@@ -184,6 +218,17 @@ const Index = () => {
                   {[10, 20, 30, 50].map((n) => (
                     <option key={n} value={n}>{n} Qs</option>
                   ))}
+                </select>
+                <select
+                  value={difficulty}
+                  onChange={(e) => setDifficulty(e.target.value as Difficulty | "all")}
+                  className="w-auto px-3 py-2.5 rounded-xl text-sm font-semibold bg-card text-foreground border border-border cursor-pointer hover:border-accent/60 focus:outline-none focus:ring-2 focus:ring-ring transition-colors appearance-none pr-8"
+                  style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0.5rem center' }}
+                >
+                  <option value="all">All Levels</option>
+                  <option value="easy">🟢 Easy</option>
+                  <option value="medium">🟡 Medium</option>
+                  <option value="hard">🔴 Hard</option>
                 </select>
               </div>
               <button
@@ -218,6 +263,13 @@ const Index = () => {
                 {bookmarks.length}
               </p>
               <p className="text-xs text-muted-foreground">Bookmarked</p>
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-warning flex items-center gap-1">
+                <Flame size={18} />
+                {currentStreak}
+              </p>
+              <p className="text-xs text-muted-foreground">Day Streak</p>
             </div>
           </div>
           <div className="flex gap-2">

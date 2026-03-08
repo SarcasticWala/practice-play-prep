@@ -12,7 +12,7 @@ import { FaCalculator } from "react-icons/fa";
 import ThemeToggle from "@/components/ThemeToggle";
 import { getQuestions } from "@/data/questions";
 import { topics } from "@/data/topics";
-import { Question, UserAnswer } from "@/types/quiz";
+import { Question, UserAnswer, Difficulty } from "@/types/quiz";
 import { useBookmarks } from "@/hooks/use-bookmarks";
 
 function shuffleArray<T>(arr: T[]): T[] {
@@ -37,6 +37,9 @@ const TestPage = () => {
   const mixedQuestionCount: number = isMixed
     ? (location.state as any)?.questionCount || 30
     : 50;
+  const mixedDifficulty: Difficulty | undefined = isMixed
+    ? (location.state as any)?.difficulty
+    : undefined;
 
   const topic = isMixed ? null : topics.find((t) => t.id === topicId);
 
@@ -57,7 +60,7 @@ const TestPage = () => {
     const perTopic = Math.max(3, Math.ceil(totalCount / selectedTopicIds.length));
     const allQs: Question[] = [];
     selectedTopicIds.forEach((tid) => {
-      allQs.push(...getQuestions(tid, perTopic));
+      allQs.push(...getQuestions(tid, perTopic, mixedDifficulty));
     });
     return shuffleArray(allQs).slice(0, totalCount);
   });

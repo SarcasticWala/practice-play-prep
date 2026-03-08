@@ -1,4 +1,4 @@
-import { Question } from "@/types/quiz";
+import { Question, Difficulty } from "@/types/quiz";
 import { percentagesQuestions } from "./percentages";
 import { numberSystemQuestions } from "./number-system";
 import { profitLossQuestions } from "./profit-loss";
@@ -82,7 +82,17 @@ function shuffleArray<T>(arr: T[]): T[] {
   return a;
 }
 
-export function getQuestions(topicId: string, count: number = 50): Question[] {
-  const questions = questionBank[topicId] || reasoningQuestions;
-  return shuffleArray(questions).slice(0, count);
+function assignDifficulty(questions: Question[]): Question[] {
+  const third = Math.ceil(questions.length / 3);
+  return questions.map((q, i) => ({
+    ...q,
+    difficulty: q.difficulty || (i < third ? "easy" : i < third * 2 ? "medium" : "hard") as Difficulty,
+  }));
+}
+
+export function getQuestions(topicId: string, count: number = 50, difficulty?: Difficulty): Question[] {
+  const raw = questionBank[topicId] || reasoningQuestions;
+  const questions = assignDifficulty(raw);
+  const filtered = difficulty ? questions.filter((q) => q.difficulty === difficulty) : questions;
+  return shuffleArray(filtered).slice(0, count);
 }
