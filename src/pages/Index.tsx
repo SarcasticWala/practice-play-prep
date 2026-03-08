@@ -24,9 +24,9 @@ const Index = () => {
   const [difficulty, setDifficulty] = useState<Difficulty | "all">("all");
   const [showDailyChallenge, setShowDailyChallenge] = useState(false);
 
-  const quantTopics = topics.filter((t) => t.category === "quantitative");
-  const reasonTopics = topics.filter((t) => t.category === "reasoning");
-  const completedCount = Object.keys(progress).length;
+  const quantTopics = useMemo(() => topics.filter((t) => t.category === "quantitative"), []);
+  const reasonTopics = useMemo(() => topics.filter((t) => t.category === "reasoning"), []);
+  const completedCount = useMemo(() => Object.keys(progress).length, [progress]);
 
   // Show daily challenge on load
   useEffect(() => {
