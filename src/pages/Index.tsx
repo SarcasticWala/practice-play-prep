@@ -16,6 +16,7 @@ const Index = () => {
   const [showBookmarks, setShowBookmarks] = useState(false);
   const [multiSelect, setMultiSelect] = useState(false);
   const [selectedTopics, setSelectedTopics] = useState<Set<string>>(new Set());
+  const [questionCount, setQuestionCount] = useState(30);
   const quantTopics = topics.filter((t) => t.category === "quantitative");
   const reasonTopics = topics.filter((t) => t.category === "reasoning");
 
@@ -46,7 +47,7 @@ const Index = () => {
   const startMixedTest = () => {
     if (selectedTopics.size === 0) return;
     navigate("/test/mixed", {
-      state: { selectedTopicIds: Array.from(selectedTopics) },
+      state: { selectedTopicIds: Array.from(selectedTopics), questionCount },
     });
   };
 
@@ -172,6 +173,15 @@ const Index = () => {
               <span className="text-sm text-muted-foreground">
                 {selectedTopics.size} topic{selectedTopics.size !== 1 ? "s" : ""} selected
               </span>
+              <select
+                value={questionCount}
+                onChange={(e) => setQuestionCount(Number(e.target.value))}
+                className="px-3 py-2 rounded-xl text-sm font-semibold bg-card text-foreground border border-border focus:outline-none focus:ring-2 focus:ring-ring"
+              >
+                {[10, 20, 30, 50].map((n) => (
+                  <option key={n} value={n}>{n} Questions</option>
+                ))}
+              </select>
               <button
                 onClick={startMixedTest}
                 disabled={selectedTopics.size === 0}
