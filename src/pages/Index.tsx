@@ -179,10 +179,10 @@ const Index = () => {
               TCS NQT Full Mock Test
             </h2>
             <p className="text-sm text-muted-foreground">
-              56 questions | 60 minutes
+              74 questions | 60 minutes
             </p>
             <p className="text-xs text-muted-foreground mt-1">
-              26 Numerical Ability + 30 Reasoning Ability
+              26 Numerical + 24 Reasoning + 24 Verbal Ability
             </p>
           </div>
           <button
