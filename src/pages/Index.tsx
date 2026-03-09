@@ -26,6 +26,7 @@ const Index = () => {
 
   const quantTopics = useMemo(() => topics.filter((t) => t.category === "quantitative"), []);
   const reasonTopics = useMemo(() => topics.filter((t) => t.category === "reasoning"), []);
+  const verbalTopics = useMemo(() => topics.filter((t) => t.category === "verbal"), []);
   const completedCount = useMemo(() => Object.keys(progress).length, [progress]);
 
   // Show daily challenge on load only if not yet answered today
