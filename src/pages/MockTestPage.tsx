@@ -114,8 +114,14 @@ const SECTIONS = [
   {
     key: "reasoning",
     label: "Reasoning Ability",
-    count: 30,
+    count: 24,
     topics: REASONING_TOPICS,
+  },
+  {
+    key: "verbal",
+    label: "Verbal Ability",
+    count: 24,
+    topics: VERBAL_TOPICS,
   },
 ] as const;
 

@@ -373,7 +373,7 @@ const Index = () => {
         </section>
 
         {/* Reasoning Section */}
-        <section>
+        <section className="mb-10">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
               <span className="w-1 h-6 bg-accent rounded-full inline-block" />
@@ -390,6 +390,29 @@ const Index = () => {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
             {reasonTopics.map((topic) => (
+              <TopicCard key={topic.id} topic={topic} />
+            ))}
+          </div>
+        </section>
+
+        {/* Verbal Ability Section */}
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
+              <span className="w-1 h-6 bg-accent rounded-full inline-block" />
+              Verbal Ability
+            </h2>
+            {multiSelect && (
+              <button
+                onClick={() => selectAll("verbal")}
+                className="text-xs font-semibold text-accent hover:underline"
+              >
+                {verbalTopics.every((t) => selectedTopics.has(t.id)) ? "Deselect All" : "Select All"}
+              </button>
+            )}
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+            {verbalTopics.map((topic) => (
               <TopicCard key={topic.id} topic={topic} />
             ))}
           </div>
