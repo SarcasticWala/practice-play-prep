@@ -51,7 +51,7 @@ const Index = () => {
     });
   }, []);
 
-  const selectAll = (category: "quantitative" | "reasoning") => {
+  const selectAll = (category: "quantitative" | "reasoning" | "verbal") => {
     const catTopics = topics.filter((t) => t.category === category);
     const allSelected = catTopics.every((t) => selectedTopics.has(t.id));
     setSelectedTopics((prev) => {
