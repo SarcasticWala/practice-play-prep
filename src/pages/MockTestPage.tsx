@@ -57,6 +57,16 @@ const REASONING_TOPICS: { id: string; name: string }[] = [
   { id: "reasoning-general", name: "Reasoning General" },
 ];
 
+const VERBAL_TOPICS: { id: string; name: string }[] = [
+  { id: "error-spotting", name: "Error Spotting" },
+  { id: "fill-in-blanks", name: "Fill in the Blanks" },
+  { id: "synonyms", name: "Synonyms" },
+  { id: "antonyms", name: "Antonyms" },
+  { id: "sentence-rearrangement", name: "Sentence Rearrangement" },
+  { id: "sentence-improvement", name: "Sentence Improvement" },
+  { id: "reading-comprehension", name: "Reading Comprehension" },
+];
+
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -104,8 +114,14 @@ const SECTIONS = [
   {
     key: "reasoning",
     label: "Reasoning Ability",
-    count: 30,
+    count: 24,
     topics: REASONING_TOPICS,
+  },
+  {
+    key: "verbal",
+    label: "Verbal Ability",
+    count: 24,
+    topics: VERBAL_TOPICS,
   },
 ] as const;
 

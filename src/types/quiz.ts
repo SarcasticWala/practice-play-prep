@@ -13,7 +13,7 @@ export interface Topic {
   id: string;
   name: string;
   icon: string;
-  category: "quantitative" | "reasoning";
+  category: "quantitative" | "reasoning" | "verbal";
   questionCount: number;
 }
 

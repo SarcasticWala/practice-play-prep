@@ -26,6 +26,7 @@ const Index = () => {
 
   const quantTopics = useMemo(() => topics.filter((t) => t.category === "quantitative"), []);
   const reasonTopics = useMemo(() => topics.filter((t) => t.category === "reasoning"), []);
+  const verbalTopics = useMemo(() => topics.filter((t) => t.category === "verbal"), []);
   const completedCount = useMemo(() => Object.keys(progress).length, [progress]);
 
   // Show daily challenge on load only if not yet answered today
@@ -50,7 +51,7 @@ const Index = () => {
     });
   }, []);
 
-  const selectAll = (category: "quantitative" | "reasoning") => {
+  const selectAll = (category: "quantitative" | "reasoning" | "verbal") => {
     const catTopics = topics.filter((t) => t.category === category);
     const allSelected = catTopics.every((t) => selectedTopics.has(t.id));
     setSelectedTopics((prev) => {
@@ -178,10 +179,10 @@ const Index = () => {
               TCS NQT Full Mock Test
             </h2>
             <p className="text-sm text-muted-foreground">
-              56 questions | 60 minutes
+              74 questions | 60 minutes
             </p>
             <p className="text-xs text-muted-foreground mt-1">
-              26 Numerical Ability + 30 Reasoning Ability
+              26 Numerical + 24 Reasoning + 24 Verbal Ability
             </p>
           </div>
           <button
@@ -372,7 +373,7 @@ const Index = () => {
         </section>
 
         {/* Reasoning Section */}
-        <section>
+        <section className="mb-10">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
               <span className="w-1 h-6 bg-accent rounded-full inline-block" />
@@ -389,6 +390,29 @@ const Index = () => {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
             {reasonTopics.map((topic) => (
+              <TopicCard key={topic.id} topic={topic} />
+            ))}
+          </div>
+        </section>
+
+        {/* Verbal Ability Section */}
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
+              <span className="w-1 h-6 bg-accent rounded-full inline-block" />
+              Verbal Ability
+            </h2>
+            {multiSelect && (
+              <button
+                onClick={() => selectAll("verbal")}
+                className="text-xs font-semibold text-accent hover:underline"
+              >
+                {verbalTopics.every((t) => selectedTopics.has(t.id)) ? "Deselect All" : "Select All"}
+              </button>
+            )}
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+            {verbalTopics.map((topic) => (
               <TopicCard key={topic.id} topic={topic} />
             ))}
           </div>

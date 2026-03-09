@@ -30,6 +30,13 @@ import { mathOperationsQuestions } from "./Mathoperationsquestions";
 import { symbolsNotationsQuestions } from "./Symbolsnotationsquestions ";
 import { dataSufficiencyQuestions } from "./Datasufficiencyquestions";
 import { meaningfulWordQuestions } from "./Meaningfulwordquestions ";
+import { errorSpottingQuestions } from "./error-spotting";
+import { fillInBlanksQuestions } from "./fill-in-blanks";
+import { synonymsQuestions } from "./synonyms";
+import { antonymsQuestions } from "./antonyms";
+import { sentenceRearrangementQuestions } from "./sentence-rearrangement";
+import { sentenceImprovementQuestions } from "./sentence-improvement";
+import { readingComprehensionQuestions } from "./reading-comprehension";
 
 const questionBank: Record<string, Question[]> = {
   percentages: percentagesQuestions,
@@ -58,7 +65,6 @@ const questionBank: Record<string, Question[]> = {
   "statement-conclusion": statementConclusionQuestions,
   "seating-easy": seatingEasyQuestions,
   analogy: analogyQuestions,
-
   "math-operations": mathOperationsQuestions,
   "symbols-notations": symbolsNotationsQuestions,
   "data-sufficiency": dataSufficiencyQuestions,
@@ -71,6 +77,13 @@ const questionBank: Record<string, Question[]> = {
     ...q,
     id: `rg-${i + 1}`,
   })),
+  "error-spotting": errorSpottingQuestions,
+  "fill-in-blanks": fillInBlanksQuestions,
+  synonyms: synonymsQuestions,
+  antonyms: antonymsQuestions,
+  "sentence-rearrangement": sentenceRearrangementQuestions,
+  "sentence-improvement": sentenceImprovementQuestions,
+  "reading-comprehension": readingComprehensionQuestions,
 };
 
 function shuffleArray<T>(arr: T[]): T[] {
