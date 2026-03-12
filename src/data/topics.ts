@@ -278,4 +278,25 @@ export const topics: Topic[] = [
     category: "verbal",
     questionCount: 50,
   },
+  {
+    id: "idioms-phrases",
+    name: "Idioms & Phrases",
+    icon: "💬",
+    category: "verbal",
+    questionCount: 50,
+  },
+  {
+    id: "one-word-substitution",
+    name: "One Word Substitution",
+    icon: "🔤",
+    category: "verbal",
+    questionCount: 50,
+  },
+  {
+    id: "cloze-test",
+    name: "Cloze Test",
+    icon: "📋",
+    category: "verbal",
+    questionCount: 50,
+  },
 ];

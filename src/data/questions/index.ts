@@ -87,6 +87,9 @@ const questionBank: Record<string, Question[]> = {
   "sentence-rearrangement": sentenceRearrangementQuestions,
   "sentence-improvement": sentenceImprovementQuestions,
   "reading-comprehension": readingComprehensionQuestions,
+  "idioms-phrases": idiomPhrasesQuestions,
+  "one-word-substitution": oneWordSubstitutionQuestions,
+  "cloze-test": clozeTestQuestions,
 };
 
 function shuffleArray<T>(arr: T[]): T[] {
