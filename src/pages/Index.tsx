@@ -148,7 +148,7 @@ const Index = () => {
                Practice Platform
             </h1>
             <p className="mt-1 text-primary-foreground/70 text-sm">
-              Master aptitude & reasoning with timed practice tests
+              Master aptitude ,reasoning and verbal ability with timed practice tests
             </p>
           </div>
           <div className="flex items-center gap-2">
