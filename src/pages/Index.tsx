@@ -145,7 +145,7 @@ const Index = () => {
         <div className="max-w-6xl mx-auto flex items-center justify-between relative z-10">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">
-              TCS NQT Practice Platform
+               Practice Platform
             </h1>
             <p className="mt-1 text-primary-foreground/70 text-sm">
               Master aptitude & reasoning with timed practice tests
