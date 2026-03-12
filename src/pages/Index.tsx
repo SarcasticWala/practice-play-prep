@@ -10,6 +10,7 @@ import ScientificCalculatorModal from "@/components/ScientificCalculator";
 import DailyChallengeModal from "@/components/DailyChallengeModal";
 import { FaCalculator } from "react-icons/fa";
 import ThemeToggle from "@/components/ThemeToggle";
+import { getIconComponent } from "@/lib/icon-mapper";
 import type { Difficulty } from "@/types/quiz";
 
 const Index = () => {
@@ -113,7 +114,9 @@ const Index = () => {
             {tp.bestPercentage}%
           </span>
         )}
-        <span className={`text-2xl block mb-2 ${multiSelect ? "mt-4" : ""}`}>{topic.icon}</span>
+        <div className={`w-8 h-8 mb-2 text-accent ${multiSelect ? "mt-4" : ""}`}>
+          {getIconComponent(topic.id)}
+        </div>
         <span className="text-sm font-semibold text-card-foreground group-hover:text-accent transition-colors leading-tight block">
           {topic.name}
         </span>
