@@ -37,6 +37,9 @@ import { antonymsQuestions } from "./antonyms";
 import { sentenceRearrangementQuestions } from "./sentence-rearrangement";
 import { sentenceImprovementQuestions } from "./sentence-improvement";
 import { readingComprehensionQuestions } from "./reading-comprehension";
+import { idiomPhrasesQuestions } from "./idioms-phrases";
+import { oneWordSubstitutionQuestions } from "./one-word-substitution";
+import { clozeTestQuestions } from "./cloze-test";
 
 const questionBank: Record<string, Question[]> = {
   percentages: percentagesQuestions,
@@ -84,6 +87,9 @@ const questionBank: Record<string, Question[]> = {
   "sentence-rearrangement": sentenceRearrangementQuestions,
   "sentence-improvement": sentenceImprovementQuestions,
   "reading-comprehension": readingComprehensionQuestions,
+  "idioms-phrases": idiomPhrasesQuestions,
+  "one-word-substitution": oneWordSubstitutionQuestions,
+  "cloze-test": clozeTestQuestions,
 };
 
 function shuffleArray<T>(arr: T[]): T[] {
